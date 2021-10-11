@@ -1,3 +1,6 @@
+import 'package:buku_maggot_app/ui/home_page.dart';
+import 'package:buku_maggot_app/ui/myfarm_page.dart';
+import 'package:buku_maggot_app/ui/transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,12 +16,17 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _bottomNavIndex = 0;
 
-  List<Widget> _listWidget = [];
+  final List<Widget> _listWidget = [
+    const HomePage(),
+    const MyFarmPage(),
+    const TransactionPage(),
+    const Placeholder(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: _listWidget[_bottomNavIndex],
+      body: _listWidget[_bottomNavIndex],
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
