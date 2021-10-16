@@ -1,4 +1,5 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -126,7 +127,6 @@ class HomePage extends StatelessWidget {
               margin:
                   EdgeInsets.only(top: 70, bottom: 120, right: 15, left: 15),
               width: MediaQuery.of(context).size.width,
-              height: 140,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                 color: primaryColor,
@@ -135,35 +135,49 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Penawaran Spesial',
-                        style: GoogleFonts.montserrat(
-                          textStyle: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Penawaran Spesial',
+                          style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Undang Teman untuk\ngabung "BUKU MAGGOT".\nDapatkan saldo OVO',
-                        style: GoogleFonts.montserrat(
-                          textStyle: const TextStyle(
-                            color: Colors.white,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Undang Teman untuk gabung "BUKU MAGGOT" Dapatkan saldo OVO',
+                          style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  Image.asset(
-                    'images/img_prm.png',
+                  Flexible(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 400,
+                          minWidth: 200,
+                        ),
+                        child: Image.asset(
+                          'images/img_prm.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
