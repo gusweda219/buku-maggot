@@ -1,50 +1,17 @@
-import 'package:buku_maggot_app/ui/main_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
-class LoginPage extends StatefulWidget {
-  static const routeName = '/login_page';
+class OTPPage extends StatefulWidget {
+  static const routeName = '/otp_page';
 
-  const LoginPage({Key? key}) : super(key: key);
+  const OTPPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _OTPPageState createState() => _OTPPageState();
 }
 
-Future registerUser(String mobile, BuildContext context) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  await _auth.verifyPhoneNumber(
-    phoneNumber: mobile,
-    timeout: Duration(seconds: 30),
-    verificationCompleted: (AuthCredential authCredential) async {
-      print('verificationcomplete');
-      await _auth
-          .signInWithCredential(authCredential)
-          .then((value) => Navigator.pushNamed(context, MainPage.routeName));
-    },
-    verificationFailed: (FirebaseAuthException e) {
-      print('verificationfailed');
-      print(e);
-    },
-    codeSent: (String verificationId, int? resendToken) {
-      print('codesent');
-      print(verificationId);
-    },
-    codeAutoRetrievalTimeout: (String verificationId) {
-      verificationId = verificationId;
-      print(verificationId);
-      print("Timeout");
-    },
-  );
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _mobilePhoneController = TextEditingController();
-
+class _OTPPageState extends State<OTPPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,42 +61,20 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _mobilePhoneController,
-                    keyboardType: TextInputType.number,
-                    textAlignVertical: TextAlignVertical.center,
-                    style: GoogleFonts.montserrat(fontSize: 18),
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '(+62)',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      prefixIconConstraints:
-                          BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: Icon(
-                        Icons.verified,
-                        size: 32,
-                      ),
-                    ),
-                  ),
-                ),
+                    width: 300,
+                    child: PinFieldAutoFill(
+                      codeLength: 6,
+                      onCodeChanged: (val) {
+                        print(val);
+                      },
+                    )),
                 SizedBox(
                   height: 50,
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      registerUser(
-                          '+62${_mobilePhoneController.text}', context);
-                    },
+                    onPressed: () {},
                     child: Text(
                       'Masuk',
                       style: GoogleFonts.montserrat(

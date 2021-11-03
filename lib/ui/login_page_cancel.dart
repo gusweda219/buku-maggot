@@ -1,22 +1,22 @@
 import 'package:buku_maggot_app/common/styles.dart';
-import 'package:buku_maggot_app/ui/login_page_cancel.dart';
+import 'package:buku_maggot_app/ui/register_page.dart';
 import 'package:buku_maggot_app/widgets/input_field.dart';
 import 'package:buku_maggot_app/widgets/password_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RegisterPage extends StatefulWidget {
-  static const routeName = '/register_page';
+class LoginPage extends StatefulWidget {
+  static const routeName = '/login_page';
 
-  const RegisterPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -27,12 +27,12 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 70, 15, 40),
+            padding: const EdgeInsets.fromLTRB(15, 90, 15, 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Daftar',
+                  'Masuk',
                   style: GoogleFonts.montserrat(
                     textStyle: const TextStyle(
                       fontSize: 20,
@@ -59,24 +59,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 50,
                 ),
                 InputField(
-                  label: 'Nama',
-                  controller: _nameController,
-                  keyboardType: TextInputType.text,
-                  icon: Icons.person_outline,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                InputField(
-                  label: 'No HP',
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  icon: Icons.phone_outlined,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                InputField(
                   label: 'Email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -90,6 +72,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _passwordController,
                 ),
                 const SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  'Lupa password?',
+                  style: GoogleFonts.montserrat(
+                    textStyle: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: primaryColor,
+                    ),
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+                const SizedBox(
                   height: 22,
                 ),
                 ElevatedButton(
@@ -98,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     print(_passwordController.text);
                   },
                   child: Text(
-                    'Daftar',
+                    'Masuk',
                     style: GoogleFonts.montserrat(
                       textStyle: const TextStyle(
                         fontSize: 20,
@@ -120,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Sudah Punya Akun?',
+                      'Tidak Punya Akun?',
                       style: GoogleFonts.montserrat(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -131,9 +127,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     InkWell(
                       onTap: () =>
-                          Navigator.pushNamed(context, LoginPage.routeName),
+                          Navigator.pushNamed(context, RegisterPage.routeName),
                       child: Text(
-                        'Masuk',
+                        'Daftar',
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -149,5 +145,12 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

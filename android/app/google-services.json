@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "756787890961",
+    "project_id": "buku-maggot-6da10",
+    "storage_bucket": "buku-maggot-6da10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756787890961:android:f519ff0444ab1e5b32dab0",
+        "android_client_info": {
+          "package_name": "com.example.buku_maggot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756787890961-1vs9oca4j8tu5og51plc7nfq6200ii3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHK1zgtfKxtr6U9yFI3AKVb0yncM7OLRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756787890961-1vs9oca4j8tu5og51plc7nfq6200ii3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
