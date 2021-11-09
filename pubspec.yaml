@@ -35,6 +35,8 @@ dependencies:
   intl: ^0.17.0
   firebase_core: ^1.8.0
   firebase_auth: ^3.1.4
+  intl_phone_number_input: ^0.7.0+2
+  intl_phone_field: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

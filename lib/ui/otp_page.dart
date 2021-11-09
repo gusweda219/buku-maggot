@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 class OTPPage extends StatefulWidget {
   static const routeName = '/otp_page';
@@ -60,14 +59,6 @@ class _OTPPageState extends State<OTPPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                    width: 300,
-                    child: PinFieldAutoFill(
-                      codeLength: 6,
-                      onCodeChanged: (val) {
-                        print(val);
-                      },
-                    )),
                 SizedBox(
                   height: 50,
                 ),
