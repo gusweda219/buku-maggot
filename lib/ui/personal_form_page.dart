@@ -1,4 +1,6 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/utils/firestore_database.dart';
+import 'package:buku_maggot_app/utils/model/user.dart' as user_model;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,18 +23,6 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
   String address = '';
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-  Future<void> _addUser() {
-    return users
-        .doc(user.uid)
-        .set({
-          'name': name,
-          'phone_number': user.phoneNumber,
-          'address': address,
-        })
-        .then((value) => print('user added'))
-        .catchError((e) => print(e));
-  }
 
   void _loadUser() {
     var currentUser = FirebaseAuth.instance.currentUser;
@@ -99,7 +89,13 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
               if (isValid) {
                 formKey.currentState!.save();
                 try {
-                  await _addUser();
+                  await FirestoreDatabase.addUser(
+                      user.uid,
+                      user_model.User(
+                        name: name,
+                        phoneNumber: user.phoneNumber!,
+                        address: address,
+                      ));
                   print('success add');
                 } catch (e) {
                   print(e);

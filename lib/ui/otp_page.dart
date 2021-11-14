@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/personal_form_page.dart';
+import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -172,10 +173,8 @@ class _OTPPageState extends State<OTPPage> {
                                       smsCode: _smsOtp))
                               .then((value) async {
                             if (value.user != null) {
-                              final snapshot = await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(value.user!.uid)
-                                  .get();
+                              final snapshot = await FirestoreDatabase.getUser(
+                                  value.user!.uid);
                               if (snapshot.exists) {
                                 Navigator.pushReplacementNamed(
                                     context, MainPage.routeName);

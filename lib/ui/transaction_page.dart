@@ -23,7 +23,6 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  final _firestore = FirebaseFirestore.instance;
   late User user;
 
   void _loadUser() {
@@ -123,350 +122,339 @@ class _TransactionPageState extends State<TransactionPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text('Transaksi'),
+        title: const Text('Transaksi'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirestoreDatabase.getDataTransactions(user.uid),
-              builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.waiting) {
-                //   return Center(
-                //     child: CircularProgressIndicator(),
-                //   )
-                // } else if (snapshot.connectionState == ConnectionState.active || snapshot.connectionState == ConnectionState.done) {
-                //   if (snapshot.hasError) {
-                //     return Text("Something went wrong");
-                //   } else if (snapshot.hasData) {
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirestoreDatabase.getDataTransactions(user.uid),
+        builder: (context, snapshot) {
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(
+          //     child: CircularProgressIndicator(),
+          //   )
+          // } else if (snapshot.connectionState == ConnectionState.active || snapshot.connectionState == ConnectionState.done) {
+          //   if (snapshot.hasError) {
+          //     return Text("Something went wrong");
+          //   } else if (snapshot.hasData) {
 
-                //   }
-                // }
-                print(snapshot.connectionState);
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
+          //   }
+          // // }
+          // print(snapshot.connectionState);
+          // if (snapshot.hasError) {
+          //   return Text("Something went wrong");
+          // }
 
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  double income = 0;
-                  double expense = 0;
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            double income = 0;
+            double expense = 0;
 
-                  for (var item in snapshot.data!.docs) {
-                    if (item['type'] == 'Pemasukan') {
-                      income += item['total'];
-                    } else {
-                      expense += item['total'];
-                    }
-                  }
+            for (var item in snapshot.data!.docs) {
+              if (item['type'] == 'Pemasukan') {
+                income += item['total'];
+              } else {
+                expense += item['total'];
+              }
+            }
 
-                  final value = _groupTransactionByDate(snapshot.data!.docs);
+            final value = _groupTransactionByDate(snapshot.data!.docs);
 
-                  return Column(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 140,
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 60,
-                              decoration: const BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                ),
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 140,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            decoration: const BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
                               ),
                             ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              left: 0,
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                width: MediaQuery.of(context).size.width,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2),
-                                      spreadRadius: 2,
-                                      blurRadius: 7,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Pemasukan',
-                                              style: styleLabelTransaction,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              'Pengeluaran',
-                                              style: styleLabelTransaction,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Rp. ${_formatNumber(income)}',
-                                              style: styleValueTransaction
-                                                  .copyWith(
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              'Rp. ${_formatNumber(expense)}',
-                                              style: styleValueTransaction
-                                                  .copyWith(
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 10),
-                                      color: _isProfitOrLoss(income, expense)
-                                          ? Colors.green
-                                          : Colors.red,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              _isProfitOrLoss(income, expense)
-                                                  ? 'Keuntungan'
-                                                  : 'Kerugian',
-                                              style: styleLabelTransaction
-                                                  .copyWith(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              _isProfitOrLoss(income, expense)
-                                                  ? 'Rp. ${_formatNumber(income - expense)}'
-                                                  : 'Rp. ${_formatNumber(expense - income)}',
-                                              style: styleValueTransaction
-                                                  .copyWith(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Material(
-                                          child: InkWell(
-                                            onTap: () {
-                                              _createPDF();
-                                            },
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(Icons.bar_chart_rounded),
-                                                Text(
-                                                  'Laporan',
-                                                  style:
-                                                      GoogleFonts.montserrat(),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: value.length,
-                          itemBuilder: (contex, index) {
-                            double incomeDate = 0;
-                            double expenseDate = 0;
-
-                            for (Map<String, dynamic> item in value[index]
-                                ['data']) {
-                              if (item['type'] == 'Pemasukan') {
-                                incomeDate += item['total'];
-                              } else {
-                                expenseDate += item['total'];
-                              }
-                            }
-
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 15),
-                                    color: Colors.grey[300],
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(DateFormat.yMMMMd('id').format(
-                                            DateTime.parse((value[index]
-                                                    ['timeStamp'] as Timestamp)
-                                                .toDate()
-                                                .toString()))),
-                                        Text(
-                                          _isProfitOrLoss(
-                                                  incomeDate, expenseDate)
-                                              ? 'Keuntungan Rp. ${_formatNumber(incomeDate - expenseDate)}'
-                                              : 'Kerugian Rp. ${_formatNumber(expenseDate - incomeDate)}',
-                                          style: TextStyle(
-                                            color: _isProfitOrLoss(
-                                                    incomeDate, expenseDate)
-                                                ? Colors.green[700]
-                                                : Colors.red,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Row(
-                                      children: const [
-                                        Expanded(
-                                            flex: 4, child: Text('Catatan')),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                              'Pemasukan',
-                                              textAlign: TextAlign.end,
-                                            )),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                              'Pengeluaran',
-                                              textAlign: TextAlign.end,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black,
-                                    indent: 15,
-                                    endIndent: 15,
-                                    thickness: 1,
-                                  ),
-                                  ListView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children:
-                                        value[index]['data'].map<Widget>((e) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                flex: 4,
-                                                child: Text(
-                                                    (e['note'] as String)
-                                                            .trim()
-                                                            .isNotEmpty
-                                                        ? e['note'].toString()
-                                                        : '-')),
-                                            Expanded(
-                                                flex: 3,
-                                                child: Text(
-                                                  e['type'] == 'Pemasukan'
-                                                      ? _formatNumber(
-                                                          e['total'])
-                                                      : '-',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.green[700],
-                                                  ),
-                                                  textAlign: TextAlign.end,
-                                                )),
-                                            Expanded(
-                                                flex: 3,
-                                                child: Text(
-                                                  e['type'] == 'Pengeluaran'
-                                                      ? _formatNumber(
-                                                          e['total'])
-                                                      : '-',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.red,
-                                                  ),
-                                                  textAlign: TextAlign.end,
-                                                )),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              width: MediaQuery.of(context).size.width,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 2,
+                                    blurRadius: 7,
                                   )
                                 ],
                               ),
-                            );
-                          }),
-                    ],
-                  );
-                }
-              },
-            ),
-            const SizedBox(
-              height: 70,
-            ),
-          ],
-        ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Pemasukan',
+                                            style: styleLabelTransaction,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            'Pengeluaran',
+                                            style: styleLabelTransaction,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Rp. ${_formatNumber(income)}',
+                                            style:
+                                                styleValueTransaction.copyWith(
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            'Rp. ${_formatNumber(expense)}',
+                                            style:
+                                                styleValueTransaction.copyWith(
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 10),
+                                    color: _isProfitOrLoss(income, expense)
+                                        ? Colors.green
+                                        : Colors.red,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            _isProfitOrLoss(income, expense)
+                                                ? 'Keuntungan'
+                                                : 'Kerugian',
+                                            style:
+                                                styleLabelTransaction.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _isProfitOrLoss(income, expense)
+                                                ? 'Rp. ${_formatNumber(income - expense)}'
+                                                : 'Rp. ${_formatNumber(expense - income)}',
+                                            style:
+                                                styleValueTransaction.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Material(
+                                        child: InkWell(
+                                          onTap: () {
+                                            _createPDF();
+                                          },
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(Icons.bar_chart_rounded),
+                                              Text(
+                                                'Laporan',
+                                                style: GoogleFonts.montserrat(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: value.length,
+                        itemBuilder: (contex, index) {
+                          double incomeDate = 0;
+                          double expenseDate = 0;
+
+                          for (Map<String, dynamic> item in value[index]
+                              ['data']) {
+                            if (item['type'] == 'Pemasukan') {
+                              incomeDate += item['total'];
+                            } else {
+                              expenseDate += item['total'];
+                            }
+                          }
+
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 15),
+                                  color: Colors.grey[300],
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(DateFormat.yMMMMd('id').format(
+                                          DateTime.parse((value[index]
+                                                  ['timeStamp'] as Timestamp)
+                                              .toDate()
+                                              .toString()))),
+                                      Text(
+                                        _isProfitOrLoss(incomeDate, expenseDate)
+                                            ? 'Keuntungan Rp. ${_formatNumber(incomeDate - expenseDate)}'
+                                            : 'Kerugian Rp. ${_formatNumber(expenseDate - incomeDate)}',
+                                        style: TextStyle(
+                                          color: _isProfitOrLoss(
+                                                  incomeDate, expenseDate)
+                                              ? Colors.green[700]
+                                              : Colors.red,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: Row(
+                                    children: const [
+                                      Expanded(flex: 4, child: Text('Catatan')),
+                                      Expanded(
+                                          flex: 3,
+                                          child: Text(
+                                            'Pemasukan',
+                                            textAlign: TextAlign.end,
+                                          )),
+                                      Expanded(
+                                          flex: 3,
+                                          child: Text(
+                                            'Pengeluaran',
+                                            textAlign: TextAlign.end,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.black,
+                                  indent: 15,
+                                  endIndent: 15,
+                                  thickness: 1,
+                                ),
+                                ListView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children:
+                                      value[index]['data'].map<Widget>((e) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 4,
+                                              child: Text((e['note'] as String)
+                                                      .trim()
+                                                      .isNotEmpty
+                                                  ? e['note'].toString()
+                                                  : '-')),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Text(
+                                                e['type'] == 'Pemasukan'
+                                                    ? _formatNumber(e['total'])
+                                                    : '-',
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.green[700],
+                                                ),
+                                                textAlign: TextAlign.end,
+                                              )),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Text(
+                                                e['type'] == 'Pengeluaran'
+                                                    ? _formatNumber(e['total'])
+                                                    : '-',
+                                                style: GoogleFonts.montserrat(
+                                                  color: Colors.red,
+                                                ),
+                                                textAlign: TextAlign.end,
+                                              )),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+              ),
+            );
+          }
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Stack(

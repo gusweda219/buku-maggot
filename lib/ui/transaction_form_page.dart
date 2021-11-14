@@ -248,7 +248,7 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
               Text(
                 widget.typeForm == TransactionFormPage.income
                     ? 'Total Pemasukan'
-                    : ' Total Pengeluaran',
+                    : 'Total Pengeluaran',
                 style: GoogleFonts.montserrat(
                   textStyle: const TextStyle(
                     fontSize: 15,

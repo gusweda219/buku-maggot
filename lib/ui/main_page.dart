@@ -1,6 +1,7 @@
 import 'package:buku_maggot_app/ui/home_page.dart';
 import 'package:buku_maggot_app/ui/myfarm_page.dart';
 import 'package:buku_maggot_app/ui/transaction_page.dart';
+import 'package:buku_maggot_app/ui/other_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,10 +18,10 @@ class _MainPageState extends State<MainPage> {
   int _bottomNavIndex = 0;
 
   final List<Widget> _listWidget = [
-    HomePage(),
+    const HomePage(),
     const MyFarmPage(),
     const TransactionPage(),
-    const Placeholder(),
+    const OtherPage(),
   ];
 
   @override

@@ -2,11 +2,14 @@ import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/ui/login_page.dart';
 import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/onboarding_page.dart';
+import 'package:buku_maggot_app/ui/other_page.dart';
 import 'package:buku_maggot_app/ui/otp_page.dart';
 import 'package:buku_maggot_app/ui/personal_form_page.dart';
+import 'package:buku_maggot_app/ui/profile_page.dart';
 import 'package:buku_maggot_app/ui/register_page.dart';
 import 'package:buku_maggot_app/ui/splash_page.dart';
 import 'package:buku_maggot_app/ui/transaction_form_page.dart';
+import 'package:buku_maggot_app/utils/model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -47,6 +50,10 @@ class MyApp extends StatelessWidget {
         TransactionFormPage.routeName: (context) => TransactionFormPage(
               typeForm: ModalRoute.of(context)?.settings.arguments as String,
             ),
+        ProfilePage.routeName: (context) => ProfilePage(
+              user: ModalRoute.of(context)?.settings.arguments as User,
+            ),
+        OtherPage.routeName: (context) => OtherPage()
       },
     );
   }
