@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   int _bottomNavIndex = 0;
 
   final List<Widget> _listWidget = [
-    const HomePage(),
+    HomePage(),
     const MyFarmPage(),
     const TransactionPage(),
     const Placeholder(),

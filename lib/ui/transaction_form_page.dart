@@ -1,7 +1,14 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/utils/model/transaction.dart'
+    as transaction_model;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:buku_maggot_app/utils/firestore_database.dart';
 
 class TransactionFormPage extends StatefulWidget {
   static const routeName = '/transaction_form_page';
@@ -17,9 +24,20 @@ class TransactionFormPage extends StatefulWidget {
 }
 
 class _TransactionFormPageState extends State<TransactionFormPage> {
+  final _firestore = FirebaseFirestore.instance;
+  late User user;
+
+  final formKey = GlobalKey<FormState>();
+
   final TextEditingController _calcController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
+
+  late DateTime _dateTime;
+
   bool _isCalcKeyboardVisible = true;
   bool _isInputVisible = false;
+  bool _isTotalEmpty = false;
 
   String _expression = '';
   String _history = '';
@@ -54,7 +72,7 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
   }
 
   void numClick(String text) {
-    if (_expression.isEmpty && (text == '0' || text == '00')) {
+    if (_expression.isEmpty && (text == '0' || text == '00' || text == '000')) {
       return;
     }
 
@@ -64,7 +82,7 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
     _isOperatorActive = false;
     _isInputVisible = true;
 
-    evaluate('helo');
+    evaluate('');
   }
 
   void opeClick(String text) {
@@ -72,7 +90,10 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
       if (_expression.isEmpty) {
         _expression = '0';
         _expression += text;
-        setState(() => _display += " $text ");
+        setState(() {
+          _display += "0 $text ";
+          _isInputVisible = true;
+        });
         _isOperatorActive = true;
       } else {
         _expression += text;
@@ -81,9 +102,9 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
       }
     } else {
       _expression = _expression.substring(0, _expression.length - 1);
-      _display = _display.substring(0, _display.length - 1);
+      _display = _display.substring(0, _display.length - 2);
       _expression += text;
-      setState(() => _display += " $text ");
+      setState(() => _display += "$text ");
     }
   }
 
@@ -120,7 +141,7 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
           }
           _display = numberFormat().join();
         });
-        evaluate('helo');
+        evaluate('');
       }
     }
   }
@@ -139,7 +160,10 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
 
     var eval = exp.evaluate(EvaluationType.REAL, cm);
 
-    if (eval == 0 || eval == double.infinity) {
+    if (eval == 0 ||
+        eval == double.infinity ||
+        (eval as double).isNaN ||
+        eval < 0) {
       _calcController.text = '';
       _calcController.selection = TextSelection.fromPosition(
           TextPosition(offset: _calcController.text.length));
@@ -160,6 +184,8 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
         _history = eval.toStringAsFixed(2);
       }
     }
+
+    // print(_history);
   }
 
   void done(String text) {
@@ -170,196 +196,352 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
     });
   }
 
+  Future<void> _addTransaction() {
+    return _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('transactions')
+        .add({
+          'type': widget.typeForm == TransactionFormPage.income
+              ? 'Pemasukan'
+              : 'Pengeluaran',
+          'total': double.parse(_history),
+          'note': _noteController.text,
+          'timeStamp': _dateTime
+        })
+        .then((value) => print('transaction added'))
+        .catchError((e) => print(e));
+  }
+
+  void _loadUser() {
+    var currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      user = currentUser;
+    }
+  }
+
+  @override
+  void initState() {
+    _loadUser();
+    _dateTime = DateTime.now();
+    _dateController.text = DateFormat.yMMMMd('id').format(_dateTime);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: widget.typeForm == TransactionFormPage.income
-            ? Text('Pemasukan')
-            : Text('Pengeluaran'),
+        title: Text(widget.typeForm == TransactionFormPage.income
+            ? 'Pemasukan'
+            : 'Pengeluaran'),
         centerTitle: true,
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  widget.typeForm == TransactionFormPage.income
-                      ? Text('Total Pemasukan')
-                      : Text(' Total Pengeluaran'),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.blue,
-                        )),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          ListView(
+            padding: const EdgeInsets.all(15),
+            children: [
+              Text(
+                widget.typeForm == TransactionFormPage.income
+                    ? 'Total Pemasukan'
+                    : ' Total Pengeluaran',
+                style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF172331),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: _isCalcKeyboardVisible && _isTotalEmpty
+                          ? Colors.red
+                          : _isCalcKeyboardVisible
+                              ? Colors.blue
+                              : Colors.grey,
+                      width: _isCalcKeyboardVisible ? 2 : 1,
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Text('Rp.'),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: TextField(
-                                controller: _calcController,
-                                decoration: const InputDecoration(
-                                  hintText: '0',
-                                  border: InputBorder.none,
-                                ),
-                                readOnly: true,
-                                showCursor: true,
-                                autofocus: true,
-                                onTap: () {
-                                  if (_history.isNotEmpty) {
-                                    var a = _calcController.text;
-                                    a.replaceAll('.', '');
-                                    print('h');
-                                    _expression = a;
-                                    setState(() {
-                                      _isInputVisible = true;
-                                      _isCalcKeyboardVisible = true;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _isCalcKeyboardVisible = true;
-                                    });
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
+                        const Text('Rp.'),
+                        const SizedBox(
+                          width: 12,
                         ),
-                        Visibility(
-                          visible: _isInputVisible,
-                          child: Text(
-                            _display,
+                        Expanded(
+                          child: TextField(
+                            controller: _calcController,
+                            decoration: const InputDecoration(
+                              hintText: '0',
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
+                            readOnly: true,
+                            showCursor: true,
+                            autofocus: true,
+                            onTap: () {
+                              if (_calcController.text.isNotEmpty) {
+                                _expression = _history.replaceAll('.', ',');
+                                print(_expression);
+                                setState(() {
+                                  _display = _expression;
+                                  _isInputVisible = true;
+                                  _isCalcKeyboardVisible = true;
+                                });
+                              } else {
+                                setState(() {
+                                  _expression = '';
+                                  _display = '';
+                                  _isCalcKeyboardVisible = true;
+                                });
+                              }
+                            },
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text('Tanggal'),
-                  TextField(
-                    onTap: () {
-                      setState(() {
-                        _isCalcKeyboardVisible = false;
-                      });
-
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2021),
-                        lastDate: DateTime(2045),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.calendar_today_rounded),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    readOnly: true,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text('Catatan'),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'asd',
-                      prefixIcon: Icon(Icons.description_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        _isCalcKeyboardVisible = false;
-                      });
-                    },
-                  ),
-                  Container(
-                    height: 1000,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Visibility(
-            visible: _isCalcKeyboardVisible,
-            child: Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                height: 300,
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          calculatorKey('C', clear),
-                          calculatorKey('/', opeClick),
-                          calculatorKey('*', opeClick),
-                          calculatorKey('DEL', delete),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          calculatorKey('7', numClick),
-                          calculatorKey('8', numClick),
-                          calculatorKey('9', numClick),
-                          calculatorKey('-', opeClick),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          calculatorKey('4', numClick),
-                          calculatorKey('5', numClick),
-                          calculatorKey('6', numClick),
-                          calculatorKey('+', opeClick),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          calculatorKey('1', numClick),
-                          calculatorKey('2', numClick),
-                          calculatorKey('3', numClick),
-                          calculatorKey(',', opeClick),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          calculatorKey('0', numClick),
-                          calculatorKey('00', numClick),
-                          calculatorKey('000', numClick),
-                          calculatorKey('DONE', done),
-                        ],
-                      ),
-                    ),
+                    Visibility(
+                        visible: _isInputVisible,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Divider(
+                              color: Colors.grey,
+                              thickness: 1,
+                            ),
+                            Text(
+                              _display,
+                            ),
+                          ],
+                        )),
                   ],
                 ),
+              ),
+              Visibility(
+                visible: _isTotalEmpty,
+                child: Text(
+                  widget.typeForm == TransactionFormPage.income
+                      ? 'Total pemasukan harus lebih besar dari 0'
+                      : 'Total pengeluaran harus lebih besar dari 0',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                'Tanggal',
+                style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF172331),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: _dateController,
+                onTap: () async {
+                  setState(() {
+                    _isCalcKeyboardVisible = false;
+                    _isInputVisible = false;
+                  });
+
+                  var date = await showDatePicker(
+                    context: context,
+                    locale: const Locale('id'),
+                    initialDate: _dateTime,
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2045),
+                  );
+
+                  if (date != null) {
+                    _dateTime = date;
+                    _dateController.text =
+                        DateFormat.yMMMMd('id').format(_dateTime);
+                  }
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.calendar_today_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                readOnly: true,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Catatan',
+                style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF172331),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: _noteController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.description_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    _isCalcKeyboardVisible = false;
+                    _isInputVisible = false;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (_calcController.text.isEmpty ||
+                      _calcController.text == '0') {
+                    setState(() {
+                      _isCalcKeyboardVisible = true;
+                      _isTotalEmpty = true;
+                    });
+                  } else {
+                    setState(() {
+                      _isCalcKeyboardVisible = false;
+                      _isTotalEmpty = false;
+                    });
+                    try {
+                      await FirestoreDatabase.addTransaction(
+                        user.uid,
+                        transaction_model.Transaction(
+                            type: widget.typeForm == TransactionFormPage.income
+                                ? 'Pemasukan'
+                                : 'Pengeluaran',
+                            total: double.parse(_history),
+                            note: _noteController.text,
+                            timestamp: Timestamp.fromMicrosecondsSinceEpoch(
+                                _dateTime.microsecondsSinceEpoch)),
+                      );
+                      print('success');
+                    } catch (e) {
+                      print(e);
+                    }
+                  }
+                },
+                child: Text(
+                  'Simpan',
+                  style: GoogleFonts.montserrat(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: _isCalcKeyboardVisible ? 300 : 0,
+              ),
+            ],
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn,
+            bottom: _isCalcKeyboardVisible ? 0 : -300,
+            right: 0,
+            left: 0,
+            child: Container(
+              height: 300,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3),
+                )
+              ]),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        calculatorKey('C', clear),
+                        calculatorKey('/', opeClick),
+                        calculatorKey('*', opeClick),
+                        calculatorKey('DEL', delete),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        calculatorKey('7', numClick),
+                        calculatorKey('8', numClick),
+                        calculatorKey('9', numClick),
+                        calculatorKey('-', opeClick),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        calculatorKey('4', numClick),
+                        calculatorKey('5', numClick),
+                        calculatorKey('6', numClick),
+                        calculatorKey('+', opeClick),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        calculatorKey('1', numClick),
+                        calculatorKey('2', numClick),
+                        calculatorKey('3', numClick),
+                        calculatorKey(',', opeClick),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        calculatorKey('0', numClick),
+                        calculatorKey('00', numClick),
+                        calculatorKey('000', numClick),
+                        calculatorKey('DONE', done),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           )
@@ -371,20 +553,36 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
   @override
   void dispose() {
     _calcController.dispose();
+    _dateController.dispose();
+    _noteController.dispose();
     super.dispose();
   }
 }
 
 Widget calculatorKey(String key, Function onTap) {
   return Expanded(
-    child: GestureDetector(
-      child: Container(
-        color: Colors.white,
-        child: Center(child: Text(key)),
+    child: Material(
+      child: InkWell(
+        enableFeedback: false,
+        child: Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: key == 'DONE' ? Colors.green[400] : Colors.grey[200],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+              child: Text(
+            key,
+            style: GoogleFonts.montserrat(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: key == 'DONE' ? Colors.white : Colors.black),
+          )),
+        ),
+        onTap: () {
+          onTap(key);
+        },
       ),
-      onTap: () {
-        onTap(key);
-      },
     ),
   );
 }

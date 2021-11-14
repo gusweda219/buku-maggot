@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/onboarding_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,10 +16,21 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  bool _loadUser() {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, OnBoardingPage.routeName);
+      Navigator.pushReplacementNamed(
+          context, _loadUser() ? MainPage.routeName : OnBoardingPage.routeName);
     });
     super.initState();
   }

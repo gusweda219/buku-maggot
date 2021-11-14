@@ -1,6 +1,4 @@
-import 'package:buku_maggot_app/ui/main_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:buku_maggot_app/ui/otp_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,34 +10,6 @@ class LoginPage extends StatefulWidget {
 
   @override
   _LoginPageState createState() => _LoginPageState();
-}
-
-Future registerUser(String mobile, BuildContext context) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  await _auth.verifyPhoneNumber(
-    phoneNumber: mobile,
-    timeout: Duration(seconds: 30),
-    verificationCompleted: (AuthCredential authCredential) async {
-      print('verificationcomplete');
-      await _auth
-          .signInWithCredential(authCredential)
-          .then((value) => Navigator.pushNamed(context, MainPage.routeName));
-    },
-    verificationFailed: (FirebaseAuthException e) {
-      print('verificationfailed');
-      print(e);
-    },
-    codeSent: (String verificationId, int? resendToken) {
-      print('codesent');
-      print(verificationId);
-    },
-    codeAutoRetrievalTimeout: (String verificationId) {
-      verificationId = verificationId;
-      print(verificationId);
-      print("Timeout");
-    },
-  );
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -106,17 +76,17 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           '(+62)',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                       prefixIconConstraints:
                           BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: Icon(
-                        Icons.verified,
-                        size: 32,
-                      ),
+                      // suffixIcon: Icon(
+                      //   Icons.verified,
+                      //   size: 32,
+                      // ),
                     ),
                   ),
                 ),
@@ -126,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      registerUser(
-                          '+62${_mobilePhoneController.text}', context);
+                    onPressed: () async {
+                      Navigator.pushNamed(context, OTPPage.routeName,
+                          arguments: '+62${_mobilePhoneController.text}');
                     },
                     child: Text(
                       'Masuk',

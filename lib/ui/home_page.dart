@@ -1,10 +1,13 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  final _auth = FirebaseAuth.instance;
+  late User _activeUser;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class HomePage extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  'BUKU MAGGOT',
+                                  'Buku Maggot',
                                   style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                       fontSize: 18,
@@ -179,6 +182,12 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _auth.signOut();
+                    },
+                    child: Text('logout'),
+                  )
                 ],
               ),
             ),
