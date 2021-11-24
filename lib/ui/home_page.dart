@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:buku_maggot_app/common/styles.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,7 +114,7 @@ class HomePage extends StatelessWidget {
                           circleIcon(
                             icon: Icons.star_border_purple500_sharp,
                             color: Color(0xFFFF8700),
-                            text: 'Hadiah',
+                            text: 'Artikel',
                           ),
                         ],
                       ),

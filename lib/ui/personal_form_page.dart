@@ -1,7 +1,7 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/user.dart' as user_model;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,19 +16,17 @@ class PersonalFormPage extends StatefulWidget {
 }
 
 class _PersonalFormPageState extends State<PersonalFormPage> {
-  final formKey = GlobalKey<FormState>();
-  late User user;
+  final _formKey = GlobalKey<FormState>();
+  late User _user;
 
-  String name = '';
-  String address = '';
-
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  String _name = '';
+  String _address = '';
 
   void _loadUser() {
     var currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
-      user = currentUser;
+      _user = currentUser;
     }
   }
 
@@ -51,7 +49,7 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
         },
         keyboardType: TextInputType.name,
         onSaved: (value) {
-          name = value!;
+          _name = value!;
         },
       );
 
@@ -74,7 +72,7 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
         },
         keyboardType: TextInputType.streetAddress,
         onSaved: (value) {
-          address = value!;
+          _address = value!;
         },
       );
 
@@ -84,19 +82,20 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
           child: ElevatedButton(
             onPressed: () async {
               FocusScope.of(context).unfocus();
-              final isValid = formKey.currentState!.validate();
+              final isValid = _formKey.currentState!.validate();
 
               if (isValid) {
-                formKey.currentState!.save();
+                _formKey.currentState!.save();
                 try {
                   await FirestoreDatabase.addUser(
-                      user.uid,
+                      _user.uid,
                       user_model.User(
-                        name: name,
-                        phoneNumber: user.phoneNumber!,
-                        address: address,
+                        name: _name,
+                        phoneNumber: _user.phoneNumber!,
+                        address: _address,
                       ));
                   print('success add');
+                  Navigator.pushReplacementNamed(context, MainPage.routeName);
                 } catch (e) {
                   print(e);
                 }
@@ -137,7 +136,7 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
         centerTitle: true,
       ),
       body: Form(
-        key: formKey,
+        key: _formKey,
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 13),
           children: [

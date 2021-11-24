@@ -1,4 +1,7 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/ui/add_biopond_page.dart';
+import 'package:buku_maggot_app/ui/add_biopond_note_page.dart';
+import 'package:buku_maggot_app/ui/biopond_detail_page.dart';
 import 'package:buku_maggot_app/ui/login_page.dart';
 import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/onboarding_page.dart';
@@ -53,7 +56,15 @@ class MyApp extends StatelessWidget {
         ProfilePage.routeName: (context) => ProfilePage(
               user: ModalRoute.of(context)?.settings.arguments as User,
             ),
-        OtherPage.routeName: (context) => OtherPage()
+        OtherPage.routeName: (context) => const OtherPage(),
+        AddBiopondPage.routeName: (context) => const AddBiopondPage(),
+        BiopondDetailPage.routeName: (context) => BiopondDetailPage(
+              bid: ModalRoute.of(context)?.settings.arguments as String,
+            ),
+        AddBiopondNotePage.routeName: (context) => AddBiopondNotePage(
+              dataId: ModalRoute.of(context)?.settings.arguments
+                  as Map<String, String>,
+            ),
       },
     );
   }

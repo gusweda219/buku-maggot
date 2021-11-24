@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _mobilePhoneController = TextEditingController();
 
   @override
@@ -65,28 +66,40 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: 300,
-                  child: TextField(
-                    controller: _mobilePhoneController,
-                    keyboardType: TextInputType.number,
-                    textAlignVertical: TextAlignVertical.center,
-                    style: GoogleFonts.montserrat(fontSize: 18),
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '(+62)',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _mobilePhoneController,
+                      keyboardType: TextInputType.number,
+                      textAlignVertical: TextAlignVertical.center,
+                      style: GoogleFonts.montserrat(fontSize: 18),
+                      decoration: InputDecoration(
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '(+62)',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
+                        prefixIconConstraints:
+                            BoxConstraints(minWidth: 0, minHeight: 0),
+                        // suffixIcon: Icon(
+                        //   Icons.verified,
+                        //   size: 32,
+                        // ),
                       ),
-                      prefixIconConstraints:
-                          BoxConstraints(minWidth: 0, minHeight: 0),
-                      // suffixIcon: Icon(
-                      //   Icons.verified,
-                      //   size: 32,
-                      // ),
+                      validator: (value) {
+                        String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                        RegExp regExp = RegExp(patttern);
+                        if (value!.isEmpty) {
+                          return 'Tolong masukan nomor telepon';
+                        } else if (!regExp.hasMatch(value)) {
+                          return 'Tolong masukan nomor telepon yang valid';
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -96,9 +109,15 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      Navigator.pushNamed(context, OTPPage.routeName,
-                          arguments: '+62${_mobilePhoneController.text}');
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      final isValid = _formKey.currentState!.validate();
+
+                      if (isValid) {
+                        _formKey.currentState!.save();
+                        Navigator.pushNamed(context, OTPPage.routeName,
+                            arguments: '+62${_mobilePhoneController.text}');
+                      }
                     },
                     child: Text(
                       'Masuk',

@@ -446,6 +446,7 @@ class _TransactionFormPageState extends State<TransactionFormPage> {
                                 _dateTime.microsecondsSinceEpoch)),
                       );
                       print('success');
+                      Navigator.pop(context);
                     } catch (e) {
                       print(e);
                     }

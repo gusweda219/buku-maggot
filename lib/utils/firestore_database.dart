@@ -1,3 +1,6 @@
+import 'package:buku_maggot_app/utils/model/biopond.dart';
+import 'package:buku_maggot_app/utils/model/cycle.dart';
+import 'package:buku_maggot_app/utils/model/note.dart';
 import 'package:buku_maggot_app/utils/model/transaction.dart'
     as transaction_model;
 import 'package:buku_maggot_app/utils/model/user.dart';
@@ -48,5 +51,84 @@ class FirestoreDatabase {
 
   static Future<DocumentSnapshot<Map<String, dynamic>>> getUser(String uid) {
     return _firestore.collection('users').doc(uid).get();
+  }
+
+  static Future<void> addBiopond(String uid, Biopond biopond) {
+    return _firestore.collection('users').doc(uid).collection('bioponds').add({
+      'name': biopond.name,
+      'length': biopond.length,
+      'width': biopond.width,
+      'height': biopond.height,
+      'timeStamp': biopond.timestamp,
+    });
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getBioponds(String uid) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .orderBy('timeStamp')
+        .snapshots();
+  }
+
+  static Future<QuerySnapshot<Map<String, dynamic>>> getCycle(
+      String uid, String bid) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .where('isClose', isEqualTo: false)
+        .get();
+  }
+
+  static Future<DocumentReference> addCycle(
+      String uid, String bid, Cycle cycle) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .add({
+      'timeStamp': cycle.timeStamp,
+      'isClose': cycle.isClose,
+    });
+  }
+
+  static Future<void> addBiopondNote(
+      String uid, String bid, String cid, Note note) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .doc(cid)
+        .collection('notes')
+        .add({
+      'timeStamp': note.timestamp,
+      'seeds': note.seeds,
+      'materialType': note.materialType,
+      'materialWeight': note.materialWeight,
+      'maggot': note.maggot,
+      'kasgot': note.kasgot,
+    });
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getBiopondNotes(
+      String uid, String bid, String cid) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .doc(cid)
+        .collection('notes')
+        .orderBy('timeStamp', descending: true)
+        .snapshots();
   }
 }
