@@ -76,7 +76,10 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: const Text('Biopond'),
+        title: Text(
+          'Biopond',
+          style: appBarStyle,
+        ),
         centerTitle: true,
         actions: [
           PopupMenuButton(

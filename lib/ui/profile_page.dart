@@ -44,7 +44,10 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: const Text('Ubah Profile'),
+        title: Text(
+          'Ubah Profile',
+          style: appBarStyle,
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -42,7 +42,10 @@ class _OtherPageState extends State<OtherPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text('Lainnya'),
+        title: Text(
+          'Lainnya',
+          style: appBarStyle,
+        ),
         centerTitle: true,
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(

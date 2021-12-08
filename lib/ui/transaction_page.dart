@@ -122,7 +122,10 @@ class _TransactionPageState extends State<TransactionPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: const Text('Transaksi'),
+        title: Text(
+          'Transaksi',
+          style: appBarStyle,
+        ),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

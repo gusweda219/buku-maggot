@@ -36,7 +36,10 @@ class MyFarmPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: const Text('Farmku'),
+        title: Text(
+          'Farmku',
+          style: appBarStyle,
+        ),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
