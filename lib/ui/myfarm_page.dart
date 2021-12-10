@@ -63,7 +63,10 @@ class _MyFarmPageState extends State<MyFarmPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: const Text('Farmku'),
+        title: Text(
+          'Farmku',
+          style: appBarStyle,
+        ),
         centerTitle: true,
       ),
       body: StreamBuilder<List<BiopondDetail>>(
