@@ -2,6 +2,7 @@ import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/ui/add_biopond_page.dart';
 import 'package:buku_maggot_app/ui/add_biopond_note_page.dart';
 import 'package:buku_maggot_app/ui/biopond_detail_page.dart';
+import 'package:buku_maggot_app/ui/edit_transaction_page.dart';
 import 'package:buku_maggot_app/ui/login_page.dart';
 import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/onboarding_page.dart';
@@ -10,8 +11,12 @@ import 'package:buku_maggot_app/ui/otp_page.dart';
 import 'package:buku_maggot_app/ui/personal_form_page.dart';
 import 'package:buku_maggot_app/ui/profile_page.dart';
 import 'package:buku_maggot_app/ui/register_page.dart';
+import 'package:buku_maggot_app/ui/riwayat_biopond_detail_page.dart';
+import 'package:buku_maggot_app/ui/riwayat_biopond_page.dart';
 import 'package:buku_maggot_app/ui/splash_page.dart';
 import 'package:buku_maggot_app/ui/transaction_form_page.dart';
+import 'package:buku_maggot_app/ui/undev_page.dart';
+import 'package:buku_maggot_app/utils/model/note.dart';
 import 'package:buku_maggot_app/utils/model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +69,18 @@ class MyApp extends StatelessWidget {
         AddBiopondNotePage.routeName: (context) => AddBiopondNotePage(
               dataId: ModalRoute.of(context)?.settings.arguments
                   as Map<String, String>,
+            ),
+        RiwayatBiopondPage.routeName: (context) => RiwayatBiopondPage(
+              bid: ModalRoute.of(context)?.settings.arguments as String,
+            ),
+        EditTransactionPage.routeName: (context) => EditTransactionPage(
+              data: ModalRoute.of(context)?.settings.arguments
+                  as Map<String, dynamic>,
+            ),
+        UnDevPage.routeName: (context) => const UnDevPage(),
+        RiwayatBiopondDetailPage.routeName: (context) =>
+            RiwayatBiopondDetailPage(
+              notes: ModalRoute.of(context)?.settings.arguments as List<Note>,
             ),
       },
     );

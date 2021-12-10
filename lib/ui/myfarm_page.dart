@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/ui/add_biopond_page.dart';
 import 'package:buku_maggot_app/ui/biopond_detail_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
+import 'package:buku_maggot_app/utils/model/biopond_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +17,18 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class MyFarmPage extends StatelessWidget {
+class MyFarmPage extends StatefulWidget {
   static const routeName = '/myfarm_page';
 
+  MyFarmPage({Key? key}) : super(key: key);
+
+  @override
+  State<MyFarmPage> createState() => _MyFarmPageState();
+}
+
+class _MyFarmPageState extends State<MyFarmPage> {
   late User _user;
+  // late StreamSubscription subscription;
 
   void _loadUser() {
     var currentUser = FirebaseAuth.instance.currentUser;
@@ -26,8 +38,23 @@ class MyFarmPage extends StatelessWidget {
     }
   }
 
-  MyFarmPage({Key? key}) : super(key: key) {
+  @override
+  void initState() {
+    super.initState();
     _loadUser();
+    // subscription = Connectivity()
+    //     .onConnectivityChanged
+    //     .listen((ConnectivityResult result) async {
+    //   print('asd');
+    //   var connectivityResult = await (Connectivity().checkConnectivity());
+    //   if (connectivityResult == ConnectivityResult.none) {
+    //     print('test');
+    //     FirestoreDatabase.source = Source.cache;
+    //   } else {
+    //     print('test2');
+    //     FirestoreDatabase.source = Source.serverAndCache;
+    //   }
+    // });
   }
 
   @override
@@ -39,7 +66,7 @@ class MyFarmPage extends StatelessWidget {
         title: const Text('Farmku'),
         centerTitle: true,
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<List<BiopondDetail>>(
           stream: FirestoreDatabase.getBioponds(_user.uid),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -47,6 +74,14 @@ class MyFarmPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else {
+              var maggot = 0.0;
+              var material = 0.0;
+
+              for (var biopond in snapshot.data!) {
+                maggot += biopond.totalMaggot;
+                material += biopond.totalMaterial;
+              }
+
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -98,26 +133,21 @@ class MyFarmPage extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           Expanded(
-                                            child: Center(
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Total Bahan Baku',
-                                                      style:
-                                                          styleLabelTransaction,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '4,5 Ton',
-                                                      style:
-                                                          styleValueTransaction
-                                                              .copyWith(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Total Bahan Baku',
+                                                  style: styleLabelTransaction,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  '$material Kg',
+                                                  style: styleValueTransaction
+                                                      .copyWith(fontSize: 16),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           const VerticalDivider(
@@ -126,26 +156,21 @@ class MyFarmPage extends StatelessWidget {
                                             width: 20,
                                           ),
                                           Expanded(
-                                            child: Center(
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Total Panen Maggot',
-                                                      style:
-                                                          styleLabelTransaction,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '3,5 Ton',
-                                                      style:
-                                                          styleValueTransaction
-                                                              .copyWith(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Total Panen Maggot',
+                                                  style: styleLabelTransaction,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  '$maggot Kg',
+                                                  style: styleValueTransaction
+                                                      .copyWith(fontSize: 16),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -188,22 +213,28 @@ class MyFarmPage extends StatelessWidget {
                       shrinkWrap: true,
                       primary: false,
                       padding: const EdgeInsets.all(13),
-                      itemCount: snapshot.data!.docs.length,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         return containerGridView(
                             context: context,
-                            name: snapshot.data!.docs[index]['name'],
-                            date: DateFormat.yMMMMd('id').format(DateTime.parse(
-                                (snapshot.data!.docs[index]['timeStamp']
-                                        as Timestamp)
-                                    .toDate()
-                                    .toString())),
+                            // name: snapshot.data!.bioponds[index].name,
+                            // date: DateFormat.yMMMMd('id').format(DateTime.parse(
+                            //     snapshot.data!.bioponds[index].timestamp
+                            //         .toDate()
+                            //         .toString())),
+                            biopond: snapshot.data![index],
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, BiopondDetailPage.routeName,
-                                  arguments: snapshot.data!.docs[index].id);
+                                      context, BiopondDetailPage.routeName,
+                                      arguments: snapshot.data![index].id)
+                                  .then((_) {
+                                setState(() {});
+                              });
                             });
                       },
+                    ),
+                    SizedBox(
+                      height: 120,
                     ),
                   ],
                 ),
@@ -242,8 +273,7 @@ class MyFarmPage extends StatelessWidget {
 
   Widget containerGridView({
     required final BuildContext context,
-    required final String name,
-    required final String date,
+    required final BiopondDetail biopond,
     required final Function() onTap,
   }) {
     return InkWell(
@@ -253,59 +283,80 @@ class MyFarmPage extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.grey,
                 ),
               ),
-              Text(
-                date,
-                style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    biopond.name,
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    DateFormat.yMMMMd('id').format(
+                        DateTime.parse(biopond.timestamp.toDate().toString())),
+                    style: GoogleFonts.montserrat(
+                      fontSize: 12,
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.grey[400],
+                  ),
+                  Text(
+                    'Bahan Baku',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    '${biopond.totalMaterial} kg',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    'Panen Maggot',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    '${biopond.totalMaggot} kg',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
-              Divider(
-                color: Colors.grey[400],
-              ),
-              Text(
-                'Bahan Baku',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                '10 kg',
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                'Panen Maggot',
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                '10 kg',
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  // @override
+  // void dispose() {
+  //   subscription.cancel();
+  //   super.dispose();
+  // }
 }

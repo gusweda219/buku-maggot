@@ -1,8 +1,11 @@
 import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/ui/add_biopond_note_page.dart';
+import 'package:buku_maggot_app/ui/main_page.dart';
+import 'package:buku_maggot_app/ui/riwayat_biopond_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/cycle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +16,7 @@ class BiopondDetailPage extends StatefulWidget {
   static const routeName = '/biopond_detail_page';
   final String bid;
 
-  BiopondDetailPage({Key? key, required this.bid}) : super(key: key);
+  const BiopondDetailPage({Key? key, required this.bid}) : super(key: key);
 
   @override
   State<BiopondDetailPage> createState() => _BiopondDetailPageState();
@@ -85,31 +88,64 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.history_edu_rounded,
-                        color: primaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Riwayat Siklus'),
-                    ],
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, RiwayatBiopondPage.routeName,
+                          arguments: widget.bid);
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.history_edu_rounded,
+                          color: primaryColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('Riwayat Siklus'),
+                      ],
+                    ),
                   ),
                 ),
                 PopupMenuItem(
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.check_circle_outline_sharp,
-                        color: primaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Tutup Siklus'),
-                    ],
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.pop(context);
+                      CoolAlert.show(
+                          context: context,
+                          type: CoolAlertType.confirm,
+                          title: 'Anda ingin menutup siklus?',
+                          text:
+                              'Jika anda sudah menutup siklus, anda tidak dapat mengubahnya lagi',
+                          confirmBtnText: 'Tutup',
+                          cancelBtnText: 'Batal',
+                          onConfirmBtnTap: () async {
+                            Navigator.pop(context);
+                            try {
+                              await FirestoreDatabase.updateStatusCycle(
+                                  _user.uid, widget.bid, cid!);
+                              print('success');
+                              Navigator.pop(context);
+                            } catch (e) {
+                              print('gagal');
+                            }
+                          });
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.check_circle_outline_sharp,
+                          color: primaryColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('Tutup Siklus'),
+                      ],
+                    ),
                   ),
                 ),
               ];

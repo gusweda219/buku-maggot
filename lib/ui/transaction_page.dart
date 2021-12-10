@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/ui/edit_transaction_page.dart';
 import 'package:buku_maggot_app/ui/transaction_form_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
+import 'package:buku_maggot_app/utils/model/transaction.dart' as ts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,9 +72,11 @@ class _TransactionPageState extends State<TransactionPage> {
               'timeStamp': l.first['timeStamp'],
               'data': l
                   .map((e) => {
+                        'id': e.id,
                         'type': e['type'],
                         'total': e['total'],
-                        'note': e['note']
+                        'note': e['note'],
+                        'timeStamp': e['timeStamp'],
                       })
                   .toList()
             })
@@ -406,41 +410,64 @@ class _TransactionPageState extends State<TransactionPage> {
                                   shrinkWrap: true,
                                   children:
                                       value[index]['data'].map<Widget>((e) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                              flex: 4,
-                                              child: Text((e['note'] as String)
-                                                      .trim()
-                                                      .isNotEmpty
-                                                  ? e['note'].toString()
-                                                  : '-')),
-                                          Expanded(
-                                              flex: 3,
-                                              child: Text(
-                                                e['type'] == 'Pemasukan'
-                                                    ? _formatNumber(e['total'])
-                                                    : '-',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.green[700],
-                                                ),
-                                                textAlign: TextAlign.end,
-                                              )),
-                                          Expanded(
-                                              flex: 3,
-                                              child: Text(
-                                                e['type'] == 'Pengeluaran'
-                                                    ? _formatNumber(e['total'])
-                                                    : '-',
-                                                style: GoogleFonts.montserrat(
-                                                  color: Colors.red,
-                                                ),
-                                                textAlign: TextAlign.end,
-                                              )),
-                                        ],
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context,
+                                            EditTransactionPage.routeName,
+                                            arguments: {
+                                              'typeForm': e['type'] ==
+                                                      'Pemasukan'
+                                                  ? EditTransactionPage.income
+                                                  : EditTransactionPage.expense,
+                                              'userId': user.uid,
+                                              'transaction': ts.Transaction(
+                                                id: e['id'],
+                                                type: e['type'],
+                                                total: e['total'],
+                                                note: e['note'],
+                                                timestamp: e['timeStamp'],
+                                              )
+                                            });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                flex: 4,
+                                                child: Text(
+                                                    (e['note'] as String)
+                                                            .trim()
+                                                            .isNotEmpty
+                                                        ? e['note'].toString()
+                                                        : '-')),
+                                            Expanded(
+                                                flex: 3,
+                                                child: Text(
+                                                  e['type'] == 'Pemasukan'
+                                                      ? _formatNumber(
+                                                          e['total'])
+                                                      : '-',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.green[700],
+                                                  ),
+                                                  textAlign: TextAlign.end,
+                                                )),
+                                            Expanded(
+                                                flex: 3,
+                                                child: Text(
+                                                  e['type'] == 'Pengeluaran'
+                                                      ? _formatNumber(
+                                                          e['total'])
+                                                      : '-',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.red,
+                                                  ),
+                                                  textAlign: TextAlign.end,
+                                                )),
+                                          ],
+                                        ),
                                       ),
                                     );
                                   }).toList(),

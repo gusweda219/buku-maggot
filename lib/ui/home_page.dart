@@ -1,4 +1,5 @@
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/ui/undev_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -100,21 +101,29 @@ class HomePage extends StatelessWidget {
                             icon: Icons.description_outlined,
                             color: Color(0xFF22B07D),
                             text: 'Laporan',
+                            onTap: () => Navigator.pushNamed(
+                                context, UnDevPage.routeName),
                           ),
                           circleIcon(
                             icon: Icons.play_circle_outline_outlined,
                             color: Color(0xFF32A7E2),
                             text: 'Tutorial',
+                            onTap: () => Navigator.pushNamed(
+                                context, UnDevPage.routeName),
                           ),
                           circleIcon(
                             icon: Icons.calendar_today_outlined,
                             color: Color(0xFFB548C6),
                             text: 'Kalender',
+                            onTap: () => Navigator.pushNamed(
+                                context, UnDevPage.routeName),
                           ),
                           circleIcon(
                             icon: Icons.star_border_purple500_sharp,
                             color: Color(0xFFFF8700),
                             text: 'Artikel',
+                            onTap: () => Navigator.pushNamed(
+                                context, UnDevPage.routeName),
                           ),
                         ],
                       ),
@@ -188,36 +197,42 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Column circleIcon(
-      {required IconData icon, required Color color, required String text}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 25,
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          text,
-          style: GoogleFonts.montserrat(
-            textStyle: const TextStyle(
-              fontSize: 14,
-              color: Colors.black,
+  Widget circleIcon(
+      {required IconData icon,
+      required Color color,
+      required String text,
+      required Function() onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: color,
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: 25,
             ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            text,
+            style: GoogleFonts.montserrat(
+              textStyle: const TextStyle(
+                fontSize: 14,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

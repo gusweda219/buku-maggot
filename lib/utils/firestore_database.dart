@@ -1,4 +1,5 @@
 import 'package:buku_maggot_app/utils/model/biopond.dart';
+import 'package:buku_maggot_app/utils/model/biopond_detail.dart';
 import 'package:buku_maggot_app/utils/model/cycle.dart';
 import 'package:buku_maggot_app/utils/model/note.dart';
 import 'package:buku_maggot_app/utils/model/transaction.dart'
@@ -9,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final _firestore = FirebaseFirestore.instance;
 
 class FirestoreDatabase {
+  // static Source source = Source.cache;
+
   static Future<void> addTransaction(
       String uid, transaction_model.Transaction transaction) {
     return _firestore
@@ -17,6 +20,29 @@ class FirestoreDatabase {
         .collection('transactions')
         .add({
       'type': transaction.type,
+      'total': transaction.total,
+      'note': transaction.note,
+      'timeStamp': transaction.timestamp,
+    });
+  }
+
+  static Future<void> deleteTransaction(String uid, String transactionId) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .doc(transactionId)
+        .delete();
+  }
+
+  static Future<void> updateTransaction(
+      String uid, transaction_model.Transaction transaction) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .doc(transaction.id)
+        .update({
       'total': transaction.total,
       'note': transaction.note,
       'timeStamp': transaction.timestamp,
@@ -63,13 +89,56 @@ class FirestoreDatabase {
     });
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getBioponds(String uid) {
+  static Stream<List<BiopondDetail>> getBioponds(String uid) {
     return _firestore
         .collection('users')
         .doc(uid)
         .collection('bioponds')
         .orderBy('timeStamp')
-        .snapshots();
+        .snapshots()
+        .asyncMap((snapshot) async {
+      List<BiopondDetail> listBioponds = [];
+      for (var biopond in snapshot.docs) {
+        var maggot = 0.0;
+        var material = 0.0;
+        await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('bioponds')
+            .doc(biopond.id)
+            .collection('cycles')
+            .get()
+            .then((cycles) async {
+          for (var cycle in cycles.docs) {
+            await _firestore
+                .collection('users')
+                .doc(uid)
+                .collection('bioponds')
+                .doc(biopond.id)
+                .collection('cycles')
+                .doc(cycle.id)
+                .collection('notes')
+                .get()
+                .then((notes) {
+              for (var note in notes.docs) {
+                maggot += note.data()['maggot'];
+                material += note.data()['materialWeight'];
+              }
+            });
+          }
+          listBioponds.add(BiopondDetail(
+              id: biopond.id,
+              totalMaggot: maggot,
+              totalMaterial: material,
+              name: biopond.data()['name'],
+              length: biopond.data()['length'],
+              width: biopond.data()['width'],
+              height: biopond.data()['height'],
+              timestamp: biopond.data()['timeStamp']));
+        });
+      }
+      return listBioponds;
+    });
   }
 
   static Future<QuerySnapshot<Map<String, dynamic>>> getCycle(
@@ -130,5 +199,82 @@ class FirestoreDatabase {
         .collection('notes')
         .orderBy('timeStamp', descending: true)
         .snapshots();
+  }
+
+  static Future<void> updateStatusCycle(String uid, String bid, String cid) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .doc(cid)
+        .update({
+      'isClose': true,
+      'closeTimeStamp': Timestamp.now(),
+    });
+  }
+
+  static Future<List<Map<String, dynamic>>> getRiwayat(String uid, String bid) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(bid)
+        .collection('cycles')
+        .where('isClose', isEqualTo: true)
+        .get()
+        .then((cycles) async {
+      var listCycles = <Map<String, dynamic>>[];
+      for (var cycle in cycles.docs) {
+        var seeds = 0.0;
+        var materialWeight = 0.0;
+        var maggot = 0.0;
+        var kasgot = 0.0;
+        late Timestamp startDate;
+        late Timestamp endDate;
+        List<Note> listNote = [];
+
+        await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('bioponds')
+            .doc(bid)
+            .collection('cycles')
+            .doc(cycle.id)
+            .collection('notes')
+            .get()
+            .then((notes) {
+          startDate = notes.docs.first.data()['timeStamp'];
+          endDate = notes.docs.last.data()['timeStamp'];
+
+          for (var note in notes.docs) {
+            listNote.add(Note(
+                timestamp: note.data()['timeStamp'],
+                seeds: note.data()['seeds'],
+                materialType: note.data()['materialType'],
+                materialWeight: note.data()['materialWeight'],
+                maggot: note.data()['maggot'],
+                kasgot: note.data()['kasgot']));
+            seeds += note.data()['seeds'];
+            materialWeight += note.data()['materialWeight'];
+            maggot += note.data()['maggot'];
+            kasgot += note.data()['kasgot'];
+          }
+        });
+
+        listCycles.add({
+          'seeds': seeds,
+          'materialWeight': materialWeight,
+          'maggot': maggot,
+          'kasgot': kasgot,
+          'startDate': startDate,
+          'endDate': endDate,
+          'notes': listNote,
+        });
+      }
+
+      return listCycles;
+    });
   }
 }
