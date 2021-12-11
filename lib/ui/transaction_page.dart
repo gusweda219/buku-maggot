@@ -10,8 +10,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
@@ -26,6 +28,8 @@ class TransactionPage extends StatefulWidget {
 
 class _TransactionPageState extends State<TransactionPage> {
   late User user;
+
+  late List<QueryDocumentSnapshot<Map<String, dynamic>>> dataTransactions;
 
   void _loadUser() {
     var currentUser = FirebaseAuth.instance.currentUser;
@@ -101,7 +105,45 @@ class _TransactionPageState extends State<TransactionPage> {
 
   Future<void> _createPDF() async {
     PdfDocument document = PdfDocument();
-    document.pages.add();
+
+    final PdfPage page = document.pages.add();
+
+    page.graphics.drawString(
+        'Laporan Transaksi', PdfStandardFont(PdfFontFamily.helvetica, 16));
+
+    var startDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+        dataTransactions.first.data()['timeStamp'].toDate().toString()));
+
+    var endDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+        dataTransactions.last.data()['timeStamp'].toDate().toString()));
+
+    page.graphics.drawString(
+        'Tanggal laporan', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(0, 30, 0, 0));
+
+    page.graphics.drawString(
+        ': $startDate - $endDate', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(100, 30, 0, 0));
+
+    page.graphics.drawString(
+        'Pemasukan', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(0, 45, 0, 0));
+
+    page.graphics.drawString(
+        ': Rp. 10.000', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(100, 45, 0, 0));
+
+    page.graphics.drawString(
+        'Pengeluaran', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(0, 60, 0, 0));
+
+    page.graphics.drawString(
+        ': Rp. 10.000', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(100, 60, 0, 0));
+
+    final PdfGrid grid = getGrid();
+    // final PdfLayoutResult result = drawHeader(page, pageSize, grid);
+    grid.draw(page: page, bounds: Rect.fromLTWH(0, 90, 0, 0));
 
     List<int> bytes = document.save();
     document.dispose();
@@ -113,6 +155,109 @@ class _TransactionPageState extends State<TransactionPage> {
     await file.writeAsBytes(bytes, flush: true);
     OpenFile.open(fileName);
   }
+
+  //Draws the grid
+  void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
+    Rect? totalPriceCellBounds;
+    Rect? quantityCellBounds;
+    //Invoke the beginCellLayout event.
+    grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {
+      final PdfGrid grid = sender as PdfGrid;
+      if (args.cellIndex == grid.columns.count - 1) {
+        totalPriceCellBounds = args.bounds;
+      } else if (args.cellIndex == grid.columns.count - 2) {
+        quantityCellBounds = args.bounds;
+      }
+    };
+    //Draw the PDF grid and get the result.
+    result = grid.draw(
+        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
+
+    //Draw grand total.
+    page.graphics.drawString('Grand Total',
+        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
+        bounds: Rect.fromLTWH(
+            quantityCellBounds!.left,
+            result.bounds.bottom + 10,
+            quantityCellBounds!.width,
+            quantityCellBounds!.height));
+    // page.graphics.drawString(getTotalAmount(grid).toString(),
+    //     PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
+    //     bounds: Rect.fromLTWH(
+    //         totalPriceCellBounds!.left,
+    //         result.bounds.bottom + 10,
+    //         totalPriceCellBounds!.width,
+    //         totalPriceCellBounds!.height));
+  }
+
+  //Create PDF grid and return
+  PdfGrid getGrid() {
+    //Create a PDF grid
+    final PdfGrid grid = PdfGrid();
+    //Secify the columns count to the grid.
+    grid.columns.add(count: 4);
+    //Create the header row of the grid.
+    final PdfGridRow headerRow = grid.headers.add(1)[0];
+    //Set style
+    headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
+    headerRow.style.textBrush = PdfBrushes.white;
+    headerRow.cells[0].value = 'Tanggal';
+    headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
+    headerRow.cells[1].value = 'Catatan';
+    headerRow.cells[2].value = 'Pemasukan';
+    headerRow.cells[3].value = 'Pengeluaran';
+    //Add rows
+    addTransaction(grid);
+    //Apply the table built-in style
+    grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
+    //Set gird columns width
+    grid.columns[1].width = 200;
+    for (int i = 0; i < headerRow.cells.count; i++) {
+      headerRow.cells[i].style.cellPadding =
+          PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
+    }
+    for (int i = 0; i < grid.rows.count; i++) {
+      final PdfGridRow row = grid.rows[i];
+      for (int j = 0; j < row.cells.count; j++) {
+        final PdfGridCell cell = row.cells[j];
+        if (j == 0) {
+          cell.stringFormat.alignment = PdfTextAlignment.center;
+        }
+        cell.style.cellPadding =
+            PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
+      }
+    }
+    return grid;
+  }
+
+  //Create and row for the grid.
+  void addTransaction(PdfGrid grid) {
+    for (var element in dataTransactions) {
+      final PdfGridRow row = grid.rows.add();
+      row.cells[0].value = DateFormat.yMMMMd('id').format(DateTime.parse(
+          (element.data()['timeStamp'] as Timestamp).toDate().toString()));
+      row.cells[1].value =
+          element.data()['note'].trim().isEmpty ? '-' : element.data()['note'];
+      if (element.data()['type'] == 'Pemasukan') {
+        row.cells[2].value = 'Rp.${_formatNumber(element.data()['total'])}';
+        row.cells[3].value = 'Rp.-';
+      } else {
+        row.cells[2].value = 'Rp.-';
+        row.cells[3].value = 'Rp.${_formatNumber(element.data()['total'])}';
+      }
+    }
+  }
+
+  //Get the total amount.
+  // double getTotalAmount(PdfGrid grid) {
+  //   double total = 0;
+  //   for (int i = 0; i < grid.rows.count; i++) {
+  //     final String value =
+  //         grid.rows[i].cells[grid.columns.count - 1].value as String;
+  //     total += double.parse(value);
+  //   }
+  //   return total;
+  // }
 
   @override
   void initState() {
@@ -155,7 +300,13 @@ class _TransactionPageState extends State<TransactionPage> {
             return Center(
               child: CircularProgressIndicator(),
             );
+          } else if (snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('data kosong'),
+            );
           } else {
+            dataTransactions = snapshot.data!.docs;
+
             double income = 0;
             double expense = 0;
 
@@ -303,7 +454,46 @@ class _TransactionPageState extends State<TransactionPage> {
                                       child: Material(
                                         child: InkWell(
                                           onTap: () {
-                                            _createPDF();
+                                            showMaterialModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        const SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                        Text(
+                                                          'Pilih format laporan',
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                        ListTile(
+                                                            title: Text('PDF'),
+                                                            leading:
+                                                                Image.asset(
+                                                              'images/pdf.png',
+                                                              width: 24,
+                                                            ),
+                                                            onTap: () =>
+                                                                _createPDF()),
+                                                        ListTile(
+                                                          title: Text('Excel'),
+                                                          leading: Image.asset(
+                                                            'images/xls.png',
+                                                            width: 24,
+                                                          ),
+                                                          onTap: () =>
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop(),
+                                                        ),
+                                                      ],
+                                                    ));
                                           },
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,

@@ -3,6 +3,7 @@ import 'package:buku_maggot_app/ui/profile_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/user.dart' as user_model;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -176,11 +177,11 @@ class _OtherPageState extends State<OtherPage> {
                             const SizedBox(
                               height: 5,
                             ),
-                            listSetting(
-                              text: 'Bagikan Buku Maggot',
-                              icon: Icons.share,
-                              onTap: () {},
-                            ),
+                            // listSetting(
+                            //   text: 'Bagikan Buku Maggot',
+                            //   icon: Icons.share,
+                            //   onTap: () {},
+                            // ),
                             const SizedBox(
                               height: 5,
                             ),
@@ -192,19 +193,27 @@ class _OtherPageState extends State<OtherPage> {
                             const SizedBox(
                               height: 5,
                             ),
-                            listSetting(
-                              text: 'Beri Nilai Buku Maggot',
-                              icon: Icons.star_border_rounded,
-                              onTap: () {},
-                            ),
+                            // listSetting(
+                            //   text: 'Beri Nilai Buku Maggot',
+                            //   icon: Icons.star_border_rounded,
+                            //   onTap: () {},
+                            // ),
                             listSetting(
                               text: 'Keluar',
                               icon: Icons.exit_to_app_rounded,
                               color: Colors.red,
-                              onTap: () async {
-                                await FirebaseAuth.instance.signOut();
-                                Navigator.pushReplacementNamed(
-                                    context, LoginPage.routeName);
+                              onTap: () {
+                                CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.confirm,
+                                    confirmBtnText: 'Keluar',
+                                    cancelBtnText: 'Batal',
+                                    title: 'Apakah anda ingin keluar?',
+                                    onConfirmBtnTap: () async {
+                                      await FirebaseAuth.instance.signOut();
+                                      Navigator.pushReplacementNamed(
+                                          context, LoginPage.routeName);
+                                    });
                               },
                             ),
                           ],

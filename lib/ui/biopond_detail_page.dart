@@ -27,6 +27,8 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
 
   late User _user;
 
+  bool _enableCycle = false;
+
   late NotesDataSource notesDataSource;
 
   void _loadUser() {
@@ -113,29 +115,32 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                   ),
                 ),
                 PopupMenuItem(
+                  enabled: _enableCycle,
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      Navigator.pop(context);
-                      CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.confirm,
-                          title: 'Anda ingin menutup siklus?',
-                          text:
-                              'Jika anda sudah menutup siklus, anda tidak dapat mengubahnya lagi',
-                          confirmBtnText: 'Tutup',
-                          cancelBtnText: 'Batal',
-                          onConfirmBtnTap: () async {
-                            Navigator.pop(context);
-                            try {
-                              await FirestoreDatabase.updateStatusCycle(
-                                  _user.uid, widget.bid, cid!);
-                              print('success');
+                      if (_enableCycle) {
+                        Navigator.pop(context);
+                        CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.confirm,
+                            title: 'Anda ingin menutup siklus?',
+                            text:
+                                'Jika anda sudah menutup siklus, anda tidak dapat mengubahnya lagi',
+                            confirmBtnText: 'Tutup',
+                            cancelBtnText: 'Batal',
+                            onConfirmBtnTap: () async {
                               Navigator.pop(context);
-                            } catch (e) {
-                              print('gagal');
-                            }
-                          });
+                              try {
+                                await FirestoreDatabase.updateStatusCycle(
+                                    _user.uid, widget.bid, cid!);
+                                print('success');
+                                Navigator.pop(context);
+                              } catch (e) {
+                                print('gagal');
+                              }
+                            });
+                      }
                     },
                     child: Row(
                       children: const [
@@ -171,11 +176,14 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              if (snapshot.data!.size == 0) {
-                return Text('Data Kosong');
+              if (snapshot.data!.docs.isEmpty) {
+                _enableCycle = false;
+                return Center(child: Text('Data Kosong'));
               }
 
               notesDataSource = NotesDataSource(notesData: snapshot.data!.docs);
+
+              _enableCycle = true;
 
               return SfDataGridTheme(
                 data: SfDataGridThemeData(
@@ -184,8 +192,10 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                 ),
                 child: SfDataGrid(
                   source: notesDataSource,
-                  columnWidthMode: ColumnWidthMode.auto,
                   frozenColumnsCount: 1,
+                  defaultColumnWidth: 140,
+                  gridLinesVisibility: GridLinesVisibility.both,
+                  headerGridLinesVisibility: GridLinesVisibility.both,
                   columns: [
                     GridColumn(
                       columnName: 'date',
@@ -203,7 +213,7 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                         padding: EdgeInsets.all(10.0),
                         alignment: Alignment.center,
                         child: Text(
-                          'Bibit',
+                          'Bibit (kg)',
                         ),
                       ),
                     ),
@@ -225,7 +235,7 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                         padding: EdgeInsets.all(10.0),
                         alignment: Alignment.center,
                         child: Text(
-                          'Berat Bahan Baku',
+                          'Berat Bahan Baku (kg)',
                           overflow: TextOverflow.visible,
                           textAlign: TextAlign.center,
                         ),
@@ -237,7 +247,7 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                         padding: EdgeInsets.all(10.0),
                         alignment: Alignment.center,
                         child: Text(
-                          'Panen Maggot',
+                          'Panen Maggot (kg)',
                           overflow: TextOverflow.visible,
                           textAlign: TextAlign.center,
                         ),
@@ -249,7 +259,7 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
                         padding: EdgeInsets.all(10.0),
                         alignment: Alignment.center,
                         child: Text(
-                          'Panen Kasgot',
+                          'Panen Kasgot (kg)',
                           overflow: TextOverflow.visible,
                           textAlign: TextAlign.center,
                         ),
@@ -299,19 +309,44 @@ class NotesDataSource extends DataGridSource {
                       (e.data()['timeStamp'] as Timestamp)
                           .toDate()
                           .toString()))),
-              DataGridCell<double>(
-                  columnName: 'seeds', value: e.data()['seeds']),
               DataGridCell<String>(
-                  columnName: 'materialType', value: e.data()['materialType']),
-              DataGridCell<double>(
+                  columnName: 'seeds',
+                  value: e.data()['seeds'] == 0
+                      ? '-'
+                      : _formatNumber(e.data()['seeds'])),
+              DataGridCell<String>(
+                  columnName: 'materialType',
+                  value: e.data()['materialType'].isEmpty
+                      ? '-'
+                      : e.data()['materialType']),
+              DataGridCell<String>(
                   columnName: 'materialWeight',
-                  value: e.data()['materialWeight']),
-              DataGridCell<double>(
-                  columnName: 'maggot', value: e.data()['maggot']),
-              DataGridCell<double>(
-                  columnName: 'kasgot', value: e.data()['kasgot']),
+                  value: e.data()['materialWeight'] == 0
+                      ? '-'
+                      : _formatNumber(e.data()['materialWeight'])),
+              DataGridCell<String>(
+                  columnName: 'maggot',
+                  value: e.data()['maggot'] == 0
+                      ? '-'
+                      : _formatNumber(e.data()['maggot'])),
+              DataGridCell<String>(
+                  columnName: 'kasgot',
+                  value: e.data()['kasgot'] == 0
+                      ? '-'
+                      : _formatNumber(e.data()['kasgot'])),
             ]))
         .toList();
+  }
+
+  String _formatNumber(double number) {
+    var formatter = NumberFormat("#,##0", "pt_BR");
+
+    if (number % 1 == 0) {
+      return formatter.format(number);
+    } else {
+      var arr = number.toStringAsFixed(2).split('.');
+      return formatter.format(int.parse(arr[0])).toString() + ',' + arr[1];
+    }
   }
 
   List<DataGridRow> _notesData = [];

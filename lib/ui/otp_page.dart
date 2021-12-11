@@ -22,7 +22,8 @@ class OTPPage extends StatefulWidget {
 class _OTPPageState extends State<OTPPage> {
   String _verificationId = '';
   String _smsOtp = '';
-  bool hasError = false;
+  bool hasErrorLen = false;
+  bool hasErrorInvalid = false;
   TextEditingController textEditingController = TextEditingController();
   StreamController<ErrorAnimationType>? errorController;
 
@@ -143,7 +144,11 @@ class _OTPPageState extends State<OTPPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Text(
-                    hasError ? "*Silakan isi semua sel dengan benar" : "",
+                    hasErrorLen
+                        ? "Silakan isi semua sel dengan benar"
+                        : hasErrorInvalid
+                            ? "OTP tidak valid"
+                            : "",
                     style: TextStyle(
                         color: Colors.red,
                         fontSize: 12,
@@ -160,10 +165,10 @@ class _OTPPageState extends State<OTPPage> {
                       if (_smsOtp.length != 6) {
                         errorController!.add(ErrorAnimationType
                             .shake); // Triggering error shake animation
-                        setState(() => hasError = true);
+                        setState(() => hasErrorLen = true);
                       } else {
                         setState(() {
-                          hasError = false;
+                          hasErrorLen = false;
                         });
                         try {
                           await FirebaseAuth.instance
@@ -175,6 +180,7 @@ class _OTPPageState extends State<OTPPage> {
                             if (value.user != null) {
                               final snapshot = await FirestoreDatabase.getUser(
                                   value.user!.uid);
+                              setState(() => hasErrorInvalid = false);
                               if (snapshot.exists) {
                                 Navigator.pushReplacementNamed(
                                     context, MainPage.routeName);
@@ -185,8 +191,9 @@ class _OTPPageState extends State<OTPPage> {
                             }
                           });
                         } catch (e) {
-                          print(e);
-                          print('otp invalid');
+                          errorController!.add(ErrorAnimationType
+                              .shake); // Triggering error shake animation
+                          setState(() => hasErrorInvalid = true);
                         }
                       }
                     },

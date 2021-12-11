@@ -27,6 +27,17 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
     }
   }
 
+  String _formatNumber(double number) {
+    var formatter = NumberFormat("#,##0", "pt_BR");
+
+    if (number % 1 == 0) {
+      return formatter.format(number);
+    } else {
+      var arr = number.toStringAsFixed(2).split('.');
+      return formatter.format(int.parse(arr[0])).toString() + ',' + arr[1];
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +62,7 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
               );
             } else {
               if (snapshot.data!.length == 0) {
-                return Text('Data Kosong');
+                return Center(child: Text('Data Kosong'));
               }
             }
 
@@ -75,7 +86,9 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                            '${DateFormat.yMMMMd('id').format(DateTime.parse((snapshot.data![index]['startDate'] as Timestamp).toDate().toString()))} - ${DateFormat.yMMMMd('id').format(DateTime.parse((snapshot.data![index]['endDate'] as Timestamp).toDate().toString()))}'),
+                          '${DateFormat.yMMMMd('id').format(DateTime.parse((snapshot.data![index]['startDate'] as Timestamp).toDate().toString()))} - ${DateFormat.yMMMMd('id').format(DateTime.parse((snapshot.data![index]['endDate'] as Timestamp).toDate().toString()))}',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                         Divider(
                           color: Colors.grey.shade400,
                         ),
@@ -88,7 +101,7 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
                                     children: [
                                       Text('Bibit'),
                                       Text(
-                                          '${snapshot.data![index]['seeds']} Kg')
+                                          '${_formatNumber(snapshot.data![index]['seeds'])} Kg')
                                     ],
                                   ),
                                 ),
@@ -97,7 +110,7 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
                                     children: [
                                       Text('Bahan Baku'),
                                       Text(
-                                          '${snapshot.data![index]['materialWeight']} Kg')
+                                          '${_formatNumber(snapshot.data![index]['materialWeight'])} Kg')
                                     ],
                                   ),
                                 ),
@@ -113,7 +126,7 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
                                     children: [
                                       Text('Maggot'),
                                       Text(
-                                          '${snapshot.data![index]['maggot']} Kg')
+                                          '${_formatNumber(snapshot.data![index]['maggot'])} Kg')
                                     ],
                                   ),
                                 ),
@@ -122,7 +135,7 @@ class _RiwayatBiopondPageState extends State<RiwayatBiopondPage> {
                                     children: [
                                       Text('Kasgot'),
                                       Text(
-                                          '${snapshot.data![index]['kasgot']} Kg')
+                                          '${_formatNumber(snapshot.data![index]['kasgot'])} Kg')
                                     ],
                                   ),
                                 ),

@@ -1,7 +1,7 @@
 import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/biopond.dart';
-import 'package:buku_maggot_app/widgets/input_fieldbiopond.dart';
+import 'package:buku_maggot_app/widgets/input_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,16 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
     }
   }
 
+  bool _numberIsValid(String value) {
+    value.replaceAll(',', '.');
+    try {
+      double.parse(value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -52,150 +62,87 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 8),
-                  child: Input_Field(
-                    textlabel: 'Nama Biopond',
-                    controller: _nameController,
-                    keyboardType: TextInputType.name,
-                    text: 'Nama tidak boleh kosong',
-                  ),
+                InputField(
+                  textlabel: 'Nama Biopond',
+                  controller: _nameController,
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Nama biopond tidak boleh kosong";
+                    }
+                  },
                 ),
-                // Input_Field(
-                //   textlabel: 'Panjang',
-                //   controller: _lengthController,
-                //   keyboardType: TextInputType.number,
-                //   text: 'Panjang',
-
-                // ),
+                const SizedBox(
+                  height: 14,
+                ),
                 Text(
                   'Ukuran Biopond',
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: TextFormField(
-                    controller: _lengthController,
-                    keyboardType: TextInputType.number,
-                    style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Panjang',
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      fillColor: const Color(0xFFF3F4F8),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade300, width: 1),
-                      ),
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r"^([0-9]+\.?[0-9]*|\.[0-9]+)"))
-                    ],
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Panjang tidak boleh kosong';
-                      }
-                    },
-                  ),
+                const SizedBox(
+                  height: 14,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: TextFormField(
-                    controller: _widthController,
-                    keyboardType: TextInputType.number,
-                    style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Lebar',
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      fillColor: const Color(0xFFF3F4F8),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade300, width: 1),
-                      ),
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r"^([0-9]+\.?[0-9]*|\.[0-9]+)"))
-                    ],
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Lebar tidak boleh kosong';
-                      }
-                    },
-                  ),
+                InputField(
+                  textlabel: 'Panjang',
+                  controller: _lengthController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Panjang tidak boleh kosong";
+                    } else if (!_numberIsValid(value)) {
+                      return "Panjang tidak valid";
+                    } else if (double.parse(value) <= 0) {
+                      return "Panjang harus lebih dari 0";
+                    }
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: TextFormField(
-                    controller: _heightController,
-                    keyboardType: TextInputType.number,
-                    style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Tinggi',
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      fillColor: const Color(0xFFF3F4F8),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade300, width: 1),
-                      ),
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r"^([0-9]+\.?[0-9]*|\.[0-9]+)"))
-                    ],
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Tinggi tidak boleh kosong';
-                      }
-                    },
-                  ),
+                const SizedBox(
+                  height: 14,
+                ),
+                InputField(
+                  textlabel: 'Lebar',
+                  controller: _widthController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Lebar tidak boleh kosong";
+                    } else if (!_numberIsValid(value)) {
+                      return "Lebar tidak valid";
+                    } else if (double.parse(value) <= 0) {
+                      return "Lebar harus lebih dari 0";
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                InputField(
+                  textlabel: 'Tinggi',
+                  controller: _heightController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Tinggi tidak boleh kosong";
+                    } else if (!_numberIsValid(value)) {
+                      return "Tinggi tidak valid";
+                    } else if (double.parse(value) <= 0) {
+                      return "Tinggi harus lebih dari 0";
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 50,
                 ),
                 SizedBox(
-                  height: 100,
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  margin: EdgeInsets.only(top: 20, bottom: 20),
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
@@ -209,7 +156,7 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
                           await FirestoreDatabase.addBiopond(
                               _user.uid,
                               Biopond(
-                                name: _nameController.text,
+                                name: _nameController.text.trim(),
                                 length: double.parse(_lengthController.text),
                                 width: double.parse(_widthController.text),
                                 height: double.parse(_heightController.text),

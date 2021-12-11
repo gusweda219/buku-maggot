@@ -21,6 +21,6 @@ final styleValueTransaction = GoogleFonts.montserrat(
 );
 final appBarStyle = GoogleFonts.montserrat(
   textStyle: const TextStyle(
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
   ),
 );

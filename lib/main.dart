@@ -10,7 +10,6 @@ import 'package:buku_maggot_app/ui/other_page.dart';
 import 'package:buku_maggot_app/ui/otp_page.dart';
 import 'package:buku_maggot_app/ui/personal_form_page.dart';
 import 'package:buku_maggot_app/ui/profile_page.dart';
-import 'package:buku_maggot_app/ui/register_page.dart';
 import 'package:buku_maggot_app/ui/riwayat_biopond_detail_page.dart';
 import 'package:buku_maggot_app/ui/riwayat_biopond_page.dart';
 import 'package:buku_maggot_app/ui/splash_page.dart';
@@ -53,7 +52,6 @@ class MyApp extends StatelessWidget {
               number: ModalRoute.of(context)?.settings.arguments as String,
             ),
         PersonalFormPage.routeName: (context) => const PersonalFormPage(),
-        RegisterPage.routeName: (context) => const RegisterPage(),
         MainPage.routeName: (context) => const MainPage(),
         TransactionFormPage.routeName: (context) => TransactionFormPage(
               typeForm: ModalRoute.of(context)?.settings.arguments as String,

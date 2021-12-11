@@ -6,7 +6,6 @@ import 'package:buku_maggot_app/ui/biopond_detail_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/biopond_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +34,17 @@ class _MyFarmPageState extends State<MyFarmPage> {
 
     if (currentUser != null) {
       _user = currentUser;
+    }
+  }
+
+  String _formatNumber(double number) {
+    var formatter = NumberFormat("#,##0", "pt_BR");
+
+    if (number % 1 == 0) {
+      return formatter.format(number);
+    } else {
+      var arr = number.toStringAsFixed(2).split('.');
+      return formatter.format(int.parse(arr[0])).toString() + ',' + arr[1];
     }
   }
 
@@ -75,6 +85,10 @@ class _MyFarmPageState extends State<MyFarmPage> {
             if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.length == 0) {
+              return Center(
+                child: Text('Data Kosong'),
               );
             } else {
               var maggot = 0.0;
@@ -146,7 +160,7 @@ class _MyFarmPageState extends State<MyFarmPage> {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  '$material Kg',
+                                                  '${_formatNumber(material)} Kg',
                                                   style: styleValueTransaction
                                                       .copyWith(fontSize: 16),
                                                 ),
@@ -169,7 +183,7 @@ class _MyFarmPageState extends State<MyFarmPage> {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  '$maggot Kg',
+                                                  '${_formatNumber(maggot)} Kg',
                                                   style: styleValueTransaction
                                                       .copyWith(fontSize: 16),
                                                 ),
@@ -328,7 +342,7 @@ class _MyFarmPageState extends State<MyFarmPage> {
                     ),
                   ),
                   Text(
-                    '${biopond.totalMaterial} kg',
+                    '${_formatNumber(biopond.totalMaterial)} kg',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -342,7 +356,7 @@ class _MyFarmPageState extends State<MyFarmPage> {
                     ),
                   ),
                   Text(
-                    '${biopond.totalMaggot} kg',
+                    '${_formatNumber(biopond.totalMaggot)} kg',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
