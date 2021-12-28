@@ -5,6 +5,7 @@ import 'package:buku_maggot_app/ui/edit_transaction_page.dart';
 import 'package:buku_maggot_app/ui/transaction_form_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/transaction.dart' as ts;
+import 'package:buku_maggot_app/widgets/blank_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -301,9 +302,7 @@ class _TransactionPageState extends State<TransactionPage> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text('data kosong'),
-            );
+            return BlankData();
           } else {
             dataTransactions = snapshot.data!.docs;
 

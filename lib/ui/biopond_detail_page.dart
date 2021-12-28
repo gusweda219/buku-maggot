@@ -4,6 +4,7 @@ import 'package:buku_maggot_app/ui/main_page.dart';
 import 'package:buku_maggot_app/ui/riwayat_biopond_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/cycle.dart';
+import 'package:buku_maggot_app/widgets/blank_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -178,7 +179,7 @@ class _BiopondDetailPageState extends State<BiopondDetailPage> {
             } else {
               if (snapshot.data!.docs.isEmpty) {
                 _enableCycle = false;
-                return Center(child: Text('Data Kosong'));
+                return BlankData();
               }
 
               notesDataSource = NotesDataSource(notesData: snapshot.data!.docs);
