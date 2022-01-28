@@ -95,7 +95,8 @@ class _PersonalFormPageState extends State<PersonalFormPage> {
                         address: _address,
                       ));
                   print('success add');
-                  Navigator.pushReplacementNamed(context, MainPage.routeName);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, MainPage.routeName, (route) => false);
                 } catch (e) {
                   print(e);
                 }

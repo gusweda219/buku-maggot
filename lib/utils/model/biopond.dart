@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Biopond {
   Biopond(
-      {required this.name,
+      {this.id,
+      required this.name,
       required this.length,
       required this.width,
       required this.height,
       required this.timestamp});
 
+  String? id;
   final String name;
   final double length;
   final double width;

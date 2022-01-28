@@ -1,3 +1,4 @@
+import 'package:buku_maggot_app/ui/alarm_page.dart';
 import 'package:buku_maggot_app/ui/login_page.dart';
 import 'package:buku_maggot_app/ui/profile_page.dart';
 import 'package:buku_maggot_app/utils/firestore_database.dart';
@@ -172,7 +173,10 @@ class _OtherPageState extends State<OtherPage> {
                             listSetting(
                               text: 'Pengingat Otomatis',
                               icon: Icons.access_alarm,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AlarmPage.routeName);
+                              },
                             ),
                             const SizedBox(
                               height: 5,

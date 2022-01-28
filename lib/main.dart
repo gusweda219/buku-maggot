@@ -1,7 +1,14 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:buku_maggot_app/common/styles.dart';
+import 'package:buku_maggot_app/helper/background_service.dart';
+import 'package:buku_maggot_app/helper/notification_helper.dart';
+import 'package:buku_maggot_app/ui/add_alarm_page.dart';
 import 'package:buku_maggot_app/ui/add_biopond_page.dart';
 import 'package:buku_maggot_app/ui/add_biopond_note_page.dart';
+import 'package:buku_maggot_app/ui/alarm_page.dart';
 import 'package:buku_maggot_app/ui/biopond_detail_page.dart';
+import 'package:buku_maggot_app/ui/edit_alarm_page.dart';
+import 'package:buku_maggot_app/ui/edit_biopond_page.dart';
 import 'package:buku_maggot_app/ui/edit_transaction_page.dart';
 import 'package:buku_maggot_app/ui/login_page.dart';
 import 'package:buku_maggot_app/ui/main_page.dart';
@@ -15,14 +22,26 @@ import 'package:buku_maggot_app/ui/riwayat_biopond_page.dart';
 import 'package:buku_maggot_app/ui/splash_page.dart';
 import 'package:buku_maggot_app/ui/transaction_form_page.dart';
 import 'package:buku_maggot_app/ui/undev_page.dart';
+import 'package:buku_maggot_app/utils/model/alarm.dart';
+import 'package:buku_maggot_app/utils/model/biopond.dart';
 import 'package:buku_maggot_app/utils/model/note.dart';
 import 'package:buku_maggot_app/utils/model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final BackgroundService _service = BackgroundService();
+  _service.initializeIsolate();
+  AndroidAlarmManager.initialize();
+
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -33,6 +52,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Buku Maggot',
       theme: ThemeData(
         primaryColor: primaryColor,
@@ -80,6 +100,12 @@ class MyApp extends StatelessWidget {
             RiwayatBiopondDetailPage(
               notes: ModalRoute.of(context)?.settings.arguments as List<Note>,
             ),
+        EditBiopondPage.routeName: (context) => EditBiopondPage(
+            biopond: ModalRoute.of(context)?.settings.arguments as Biopond),
+        AlarmPage.routeName: (context) => const AlarmPage(),
+        AddAlarmPage.routeName: (context) => const AddAlarmPage(),
+        EditAlarmPage.routeName: (context) => EditAlarmPage(
+            alarm: ModalRoute.of(context)?.settings.arguments as Alarm),
       },
     );
   }

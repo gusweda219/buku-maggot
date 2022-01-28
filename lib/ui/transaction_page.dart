@@ -31,6 +31,9 @@ class _TransactionPageState extends State<TransactionPage> {
 
   late List<QueryDocumentSnapshot<Map<String, dynamic>>> dataTransactions;
 
+  double income = 0;
+  double expense = 0;
+
   void _loadUser() {
     var currentUser = FirebaseAuth.instance.currentUser;
 
@@ -91,13 +94,83 @@ class _TransactionPageState extends State<TransactionPage> {
   Future<void> _createExcel() async {
     final xlsio.Workbook workbook = xlsio.Workbook();
     final xlsio.Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByIndex(1, 1).setText('halo');
+
+    sheet.enableSheetCalculations();
+
+    sheet.getRangeByName('A1').columnWidth = 4.82;
+    sheet.getRangeByName('B1:E1').columnWidth = 13.82;
+
+    sheet.getRangeByName('B4:D5').merge();
+
+    sheet.getRangeByName('B4').setText('Laporan Transaksi');
+    sheet.getRangeByName('B4').cellStyle.fontSize = 20;
+
+    var endDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+        dataTransactions.first.data()['timeStamp'].toDate().toString()));
+
+    var startDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+        dataTransactions.last.data()['timeStamp'].toDate().toString()));
+
+    sheet.getRangeByName('C9:D9').merge();
+    sheet.getRangeByName('C9').setText('$startDate - $endDate');
+    sheet.getRangeByName('C9').cellStyle.fontSize = 9;
+
+    sheet.getRangeByName('B9').setText('Tanggal Laporan');
+    sheet.getRangeByName('B9').cellStyle.fontSize = 9;
+
+    sheet.getRangeByName('B10').setText('Pemasukan');
+    sheet.getRangeByName('B10').cellStyle.fontSize = 9;
+
+    sheet.getRangeByName('C10').setNumber(income);
+    sheet.getRangeByName('C10').cellStyle.fontSize = 9;
+    sheet.getRangeByName('C10').cellStyle.hAlign = xlsio.HAlignType.left;
+
+    sheet.getRangeByName('B11').setText('Pengeluaran');
+    sheet.getRangeByName('B11').cellStyle.fontSize = 9;
+
+    sheet.getRangeByName('C11').setNumber(expense);
+    sheet.getRangeByName('C11').cellStyle.fontSize = 9;
+    sheet.getRangeByName('C11').cellStyle.hAlign = xlsio.HAlignType.left;
+
+    sheet
+        .getRangeByName('B12')
+        .setText(income > expense ? 'Keuntungan' : 'Kerugian');
+    sheet.getRangeByName('B12').cellStyle.fontSize = 9;
+
+    sheet.getRangeByIndex(15, 2).setText('Tanggal');
+    sheet.getRangeByIndex(15, 3).setText('Catatan');
+    sheet.getRangeByIndex(15, 4).setText('Pemasukan');
+    sheet.getRangeByIndex(15, 5).setText('Pengeluaran');
+
+    for (var i = 0; i < dataTransactions.length; i++) {
+      sheet.getRangeByIndex(i + 16, 2).setText(DateFormat.yMMMMd('id').format(
+          DateTime.parse((dataTransactions[i].data()['timeStamp'] as Timestamp)
+              .toDate()
+              .toString())));
+      sheet
+          .getRangeByIndex(i + 16, 3)
+          .setText(dataTransactions[i].data()['note']);
+      if (dataTransactions[i].data()['type'] == 'Pemasukan') {
+        sheet
+            .getRangeByIndex(i + 16, 4)
+            .setNumber(dataTransactions[i].data()['total']);
+        sheet.getRangeByIndex(i + 16, 4).cellStyle.hAlign =
+            xlsio.HAlignType.left;
+      } else {
+        sheet
+            .getRangeByIndex(i + 16, 5)
+            .setNumber(dataTransactions[i].data()['total']);
+        sheet.getRangeByIndex(i + 16, 5).cellStyle.hAlign =
+            xlsio.HAlignType.left;
+      }
+    }
+
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     final String path = (await getApplicationSupportDirectory()).path;
     final String fileName =
-        '$path/Laporan Laba Rugi_${DateFormat.yMMMMd('id').format(DateTime.now())}';
+        '$path/Laporan Laba Rugi_${DateFormat.yMMMMd('id').format(DateTime.now())}.xlsx';
     final File file = File(fileName);
     await file.writeAsBytes(bytes, flush: true);
     OpenFile.open(fileName);
@@ -107,14 +180,15 @@ class _TransactionPageState extends State<TransactionPage> {
     PdfDocument document = PdfDocument();
 
     final PdfPage page = document.pages.add();
+    final PdfGrid grid = getGrid();
 
     page.graphics.drawString(
         'Laporan Transaksi', PdfStandardFont(PdfFontFamily.helvetica, 16));
 
-    var startDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+    var endDate = DateFormat.yMMMMd('id').format(DateTime.parse(
         dataTransactions.first.data()['timeStamp'].toDate().toString()));
 
-    var endDate = DateFormat.yMMMMd('id').format(DateTime.parse(
+    var startDate = DateFormat.yMMMMd('id').format(DateTime.parse(
         dataTransactions.last.data()['timeStamp'].toDate().toString()));
 
     page.graphics.drawString(
@@ -129,65 +203,39 @@ class _TransactionPageState extends State<TransactionPage> {
         'Pemasukan', PdfStandardFont(PdfFontFamily.helvetica, 12),
         bounds: Rect.fromLTWH(0, 45, 0, 0));
 
-    page.graphics.drawString(
-        ': Rp. 10.000', PdfStandardFont(PdfFontFamily.helvetica, 12),
+    page.graphics.drawString(': Rp. ${_formatNumber(income)}',
+        PdfStandardFont(PdfFontFamily.helvetica, 12),
         bounds: Rect.fromLTWH(100, 45, 0, 0));
 
     page.graphics.drawString(
         'Pengeluaran', PdfStandardFont(PdfFontFamily.helvetica, 12),
         bounds: Rect.fromLTWH(0, 60, 0, 0));
 
-    page.graphics.drawString(
-        ': Rp. 10.000', PdfStandardFont(PdfFontFamily.helvetica, 12),
+    page.graphics.drawString(': Rp. ${_formatNumber(expense)}',
+        PdfStandardFont(PdfFontFamily.helvetica, 12),
         bounds: Rect.fromLTWH(100, 60, 0, 0));
 
-    final PdfGrid grid = getGrid();
+    page.graphics.drawString(
+        income - expense >= 0 ? 'Keuntungan' : 'Pengeluaran',
+        PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(0, 75, 0, 0));
+
+    page.graphics.drawString(': Rp. ${_formatNumber((income - expense).abs())}',
+        PdfStandardFont(PdfFontFamily.helvetica, 12),
+        bounds: Rect.fromLTWH(100, 75, 0, 0));
+
     // final PdfLayoutResult result = drawHeader(page, pageSize, grid);
-    grid.draw(page: page, bounds: Rect.fromLTWH(0, 90, 0, 0));
+    grid.draw(page: page, bounds: Rect.fromLTWH(0, 105, 0, 0));
 
     List<int> bytes = document.save();
     document.dispose();
 
     final path = (await getApplicationDocumentsDirectory()).path;
     final String fileName =
-        '$path/Laporan Laba Rugi_${DateFormat.yMMMMd('id').format(DateTime.now())}';
+        '$path/Laporan Laba Rugi_${DateFormat.yMMMMd('id').format(DateTime.now())}.pdf';
     final file = File(fileName);
     await file.writeAsBytes(bytes, flush: true);
     OpenFile.open(fileName);
-  }
-
-  //Draws the grid
-  void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
-    Rect? totalPriceCellBounds;
-    Rect? quantityCellBounds;
-    //Invoke the beginCellLayout event.
-    grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {
-      final PdfGrid grid = sender as PdfGrid;
-      if (args.cellIndex == grid.columns.count - 1) {
-        totalPriceCellBounds = args.bounds;
-      } else if (args.cellIndex == grid.columns.count - 2) {
-        quantityCellBounds = args.bounds;
-      }
-    };
-    //Draw the PDF grid and get the result.
-    result = grid.draw(
-        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
-
-    //Draw grand total.
-    page.graphics.drawString('Grand Total',
-        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
-        bounds: Rect.fromLTWH(
-            quantityCellBounds!.left,
-            result.bounds.bottom + 10,
-            quantityCellBounds!.width,
-            quantityCellBounds!.height));
-    // page.graphics.drawString(getTotalAmount(grid).toString(),
-    //     PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
-    //     bounds: Rect.fromLTWH(
-    //         totalPriceCellBounds!.left,
-    //         result.bounds.bottom + 10,
-    //         totalPriceCellBounds!.width,
-    //         totalPriceCellBounds!.height));
   }
 
   //Create PDF grid and return
@@ -248,17 +296,6 @@ class _TransactionPageState extends State<TransactionPage> {
     }
   }
 
-  //Get the total amount.
-  // double getTotalAmount(PdfGrid grid) {
-  //   double total = 0;
-  //   for (int i = 0; i < grid.rows.count; i++) {
-  //     final String value =
-  //         grid.rows[i].cells[grid.columns.count - 1].value as String;
-  //     total += double.parse(value);
-  //   }
-  //   return total;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -307,8 +344,8 @@ class _TransactionPageState extends State<TransactionPage> {
           } else {
             dataTransactions = snapshot.data!.docs;
 
-            double income = 0;
-            double expense = 0;
+            income = 0;
+            expense = 0;
 
             for (var item in snapshot.data!.docs) {
               if (item['type'] == 'Pemasukan') {
@@ -473,7 +510,8 @@ class _TransactionPageState extends State<TransactionPage> {
                                                           ),
                                                         ),
                                                         ListTile(
-                                                            title: Text('PDF'),
+                                                            title: const Text(
+                                                                'PDF'),
                                                             leading:
                                                                 Image.asset(
                                                               'images/pdf.png',
@@ -482,15 +520,14 @@ class _TransactionPageState extends State<TransactionPage> {
                                                             onTap: () =>
                                                                 _createPDF()),
                                                         ListTile(
-                                                          title: Text('Excel'),
+                                                          title: const Text(
+                                                              'Excel'),
                                                           leading: Image.asset(
                                                             'images/xls.png',
                                                             width: 24,
                                                           ),
                                                           onTap: () =>
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(),
+                                                              _createExcel(),
                                                         ),
                                                       ],
                                                     ));

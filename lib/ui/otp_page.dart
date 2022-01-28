@@ -182,11 +182,13 @@ class _OTPPageState extends State<OTPPage> {
                                   value.user!.uid);
                               setState(() => hasErrorInvalid = false);
                               if (snapshot.exists) {
-                                Navigator.pushReplacementNamed(
-                                    context, MainPage.routeName);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    MainPage.routeName, (route) => false);
                               } else {
-                                Navigator.pushReplacementNamed(
-                                    context, PersonalFormPage.routeName);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    PersonalFormPage.routeName,
+                                    (route) => false);
                               }
                             }
                           });

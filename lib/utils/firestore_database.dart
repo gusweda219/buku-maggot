@@ -89,6 +89,29 @@ class FirestoreDatabase {
     });
   }
 
+  static Future<void> updateBiopond(String uid, Biopond biopond) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(biopond.id)
+        .update({
+      'name': biopond.name,
+      'length': biopond.length,
+      'width': biopond.width,
+      'height': biopond.height,
+    });
+  }
+
+  static Future<void> deleteBiopond(String uid, String idBiopond) {
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('bioponds')
+        .doc(idBiopond)
+        .delete();
+  }
+
   static Stream<List<BiopondDetail>> getBioponds(String uid) {
     return _firestore
         .collection('users')
@@ -109,6 +132,7 @@ class FirestoreDatabase {
             .collection('cycles')
             .get()
             .then((cycles) async {
+          List<Cycle> listCycles = [];
           for (var cycle in cycles.docs) {
             await _firestore
                 .collection('users')
@@ -118,12 +142,25 @@ class FirestoreDatabase {
                 .collection('cycles')
                 .doc(cycle.id)
                 .collection('notes')
+                .orderBy('timeStamp', descending: false)
                 .get()
                 .then((notes) {
+              List<Note> listNotes = [];
               for (var note in notes.docs) {
+                listNotes.add(Note(
+                    timestamp: note.data()['timeStamp'],
+                    seeds: note.data()['seeds'],
+                    materialType: note.data()['materialType'],
+                    materialWeight: note.data()['materialWeight'],
+                    maggot: note.data()['maggot'],
+                    kasgot: note.data()['kasgot']));
                 maggot += note.data()['maggot'];
                 material += note.data()['materialWeight'];
               }
+              listCycles.add(Cycle(
+                  notes: listNotes,
+                  timeStamp: cycle.data()['timeStamp'],
+                  isClose: cycle.data()['isClose']));
             });
           }
           listBioponds.add(BiopondDetail(
@@ -134,7 +171,8 @@ class FirestoreDatabase {
               length: biopond.data()['length'],
               width: biopond.data()['width'],
               height: biopond.data()['height'],
-              timestamp: biopond.data()['timeStamp']));
+              timestamp: biopond.data()['timeStamp'],
+              cyles: listCycles));
         });
       }
       return listBioponds;
@@ -197,7 +235,7 @@ class FirestoreDatabase {
         .collection('cycles')
         .doc(cid)
         .collection('notes')
-        .orderBy('timeStamp', descending: true)
+        .orderBy('timeStamp', descending: false)
         .snapshots();
   }
 

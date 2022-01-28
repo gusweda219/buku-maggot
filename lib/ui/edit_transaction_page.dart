@@ -23,7 +23,6 @@ class EditTransactionPage extends StatefulWidget {
 }
 
 class _EditTransactionPageState extends State<EditTransactionPage> {
-  final _firestore = FirebaseFirestore.instance;
   late User user;
 
   final formKey = GlobalKey<FormState>();

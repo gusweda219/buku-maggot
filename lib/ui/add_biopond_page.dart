@@ -23,6 +23,10 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
   final _widthController = TextEditingController();
   final _heightController = TextEditingController();
 
+  String tLength = 'm';
+  String tWidth = 'm';
+  String tHeight = 'm';
+
   late User _user;
 
   void _loadUser() {
@@ -31,6 +35,14 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
     if (currentUser != null) {
       _user = currentUser;
     }
+  }
+
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      const DropdownMenuItem(child: Text("m"), value: "m"),
+      const DropdownMenuItem(child: Text("cm"), value: "cm"),
+    ];
+    return menuItems;
   }
 
   bool _numberIsValid(String value) {
@@ -82,7 +94,7 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
                 Text(
                   'Ukuran Biopond',
                   style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
@@ -91,53 +103,148 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
                 const SizedBox(
                   height: 14,
                 ),
-                InputField(
-                  textlabel: 'Panjang',
-                  controller: _lengthController,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Panjang tidak boleh kosong";
-                    } else if (!_numberIsValid(value)) {
-                      return "Panjang tidak valid";
-                    } else if (double.parse(value) <= 0) {
-                      return "Panjang harus lebih dari 0";
-                    }
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        textlabel: 'Panjang',
+                        controller: _lengthController,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Panjang tidak boleh kosong";
+                          } else if (!_numberIsValid(value)) {
+                            return "Panjang tidak valid";
+                          } else if (double.parse(value) <= 0) {
+                            return "Panjang harus lebih dari 0";
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade700,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: tLength,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              tLength = newValue!;
+                            });
+                          },
+                          items: dropdownItems,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 14,
                 ),
-                InputField(
-                  textlabel: 'Lebar',
-                  controller: _widthController,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Lebar tidak boleh kosong";
-                    } else if (!_numberIsValid(value)) {
-                      return "Lebar tidak valid";
-                    } else if (double.parse(value) <= 0) {
-                      return "Lebar harus lebih dari 0";
-                    }
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        textlabel: 'Lebar',
+                        controller: _widthController,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Lebar tidak boleh kosong";
+                          } else if (!_numberIsValid(value)) {
+                            return "Lebar tidak valid";
+                          } else if (double.parse(value) <= 0) {
+                            return "Lebar harus lebih dari 0";
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade700,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: tWidth,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              tWidth = newValue!;
+                            });
+                          },
+                          items: dropdownItems,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 14,
                 ),
-                InputField(
-                  textlabel: 'Tinggi',
-                  controller: _heightController,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Tinggi tidak boleh kosong";
-                    } else if (!_numberIsValid(value)) {
-                      return "Tinggi tidak valid";
-                    } else if (double.parse(value) <= 0) {
-                      return "Tinggi harus lebih dari 0";
-                    }
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        textlabel: 'Tinggi',
+                        controller: _heightController,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Tinggi tidak boleh kosong";
+                          } else if (!_numberIsValid(value)) {
+                            return "Tinggi tidak valid";
+                          } else if (double.parse(value) <= 0) {
+                            return "Tinggi harus lebih dari 0";
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade700,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: tHeight,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              tHeight = newValue!;
+                            });
+                          },
+                          items: dropdownItems,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 50,
@@ -157,9 +264,17 @@ class _AddBiopondPageState extends State<AddBiopondPage> {
                               _user.uid,
                               Biopond(
                                 name: _nameController.text.trim(),
-                                length: double.parse(_lengthController.text),
-                                width: double.parse(_widthController.text),
-                                height: double.parse(_heightController.text),
+                                length: tLength == 'm'
+                                    ? double.parse(_lengthController.text)
+                                    : double.parse(_lengthController.text) /
+                                        100,
+                                width: tWidth == 'm'
+                                    ? double.parse(_widthController.text)
+                                    : double.parse(_widthController.text) / 100,
+                                height: tHeight == 'm'
+                                    ? double.parse(_heightController.text)
+                                    : double.parse(_heightController.text) /
+                                        100,
                                 timestamp: Timestamp.fromMicrosecondsSinceEpoch(
                                     DateTime.now().microsecondsSinceEpoch),
                               ));
