@@ -1,33 +1,49 @@
 {
   "project_info": {
-    "project_number": "756787890961",
-    "project_id": "buku-maggot-6da10",
-    "storage_bucket": "buku-maggot-6da10.appspot.com"
+    "project_number": "1023515589228",
+    "project_id": "buku-maggot-1d754",
+    "storage_bucket": "buku-maggot-1d754.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:756787890961:android:f519ff0444ab1e5b32dab0",
+        "mobilesdk_app_id": "1:1023515589228:android:7902b091ba477257f4b649",
         "android_client_info": {
-          "package_name": "com.example.buku_maggot_app"
+          "package_name": "com.balaindonesia.buku_maggot_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "756787890961-1vs9oca4j8tu5og51plc7nfq6200ii3s.apps.googleusercontent.com",
+          "client_id": "1023515589228-f3tb6akilp362c3ug2sqc4pl9cr2tjpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.balaindonesia.buku_maggot_app",
+            "certificate_hash": "b5d7f868953dc8655fcad54b42f4d9107cb9c6e6"
+          }
+        },
+        {
+          "client_id": "1023515589228-l9t5rcacmu7tstrv5p7qaf7t8qpdl0m9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.balaindonesia.buku_maggot_app",
+            "certificate_hash": "04f4352a635d0f5c0d471742fed3a8e1f980e4b0"
+          }
+        },
+        {
+          "client_id": "1023515589228-dj1skvg3vflv4mn65dai77ts1lq1fsbt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHK1zgtfKxtr6U9yFI3AKVb0yncM7OLRc"
+          "current_key": "AIzaSyDR7Tn2l-8LfzQ0Va2qN7f49GMs8U4UGhA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "756787890961-1vs9oca4j8tu5og51plc7nfq6200ii3s.apps.googleusercontent.com",
+              "client_id": "1023515589228-dj1skvg3vflv4mn65dai77ts1lq1fsbt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

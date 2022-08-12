@@ -40,7 +40,10 @@ class HomePage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('images/logo.png'),
+                                Image.asset(
+                                  'images/logo.png',
+                                  width: 30,
+                                ),
                                 SizedBox(
                                   width: 5,
                                 ),
@@ -150,7 +153,7 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Penawaran Spesial',
+                          'JOIN KITA',
                           style: GoogleFonts.montserrat(
                             textStyle: const TextStyle(
                               fontSize: 17,
@@ -163,7 +166,7 @@ class HomePage extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          'Undang Teman untuk gabung "BUKU MAGGOT" Dapatkan saldo OVO',
+                          'Undang temanmu untuk gabung "BUKU MAGGOT"',
                           style: GoogleFonts.montserrat(
                             textStyle: const TextStyle(
                               color: Colors.white,

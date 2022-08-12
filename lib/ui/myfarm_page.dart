@@ -9,6 +9,7 @@ import 'package:buku_maggot_app/utils/firestore_database.dart';
 import 'package:buku_maggot_app/utils/model/biopond.dart';
 import 'package:buku_maggot_app/utils/model/biopond_detail.dart';
 import 'package:buku_maggot_app/utils/model/note.dart';
+import 'package:buku_maggot_app/widgets/blank_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -83,9 +84,7 @@ class _MyFarmPageState extends State<MyFarmPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.data!.length == 0) {
-              return Center(
-                child: Text('Data Kosong'),
-              );
+              return BlankData();
             } else {
               _listBiopond = snapshot.data!;
 

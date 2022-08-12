@@ -34,12 +34,12 @@ class _OTPPageState extends State<OTPPage> {
       phoneNumber: number,
       timeout: Duration(seconds: 30),
       verificationCompleted: (AuthCredential authCredential) async {
-        print('verificationcomplete');
-        await _auth.signInWithCredential(authCredential).then((value) async {
-          if (value.user != null) {
-            print('user logged in');
-          }
-        });
+        // print('verificationcomplete');
+        // await _auth.signInWithCredential(authCredential).then((value) async {
+        //   if (value.user != null) {
+        //     print('user logged in');
+        //   }
+        // });
       },
       verificationFailed: (FirebaseAuthException e) {
         print('verificationfailed');

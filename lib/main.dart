@@ -1,4 +1,4 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+// import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/helper/background_service.dart';
 import 'package:buku_maggot_app/helper/notification_helper.dart';
@@ -28,21 +28,23 @@ import 'package:buku_maggot_app/utils/model/note.dart';
 import 'package:buku_maggot_app/utils/model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final BackgroundService _service = BackgroundService();
-  _service.initializeIsolate();
-  AndroidAlarmManager.initialize();
-
-  final NotificationHelper _notificationHelper = NotificationHelper();
-  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
+
+  // final BackgroundService _service = BackgroundService();
+  // _service.initializeIsolate();
+  // AndroidAlarmManager.initialize();
+
+  // final NotificationHelper _notificationHelper = NotificationHelper();
+  // await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+
   runApp(const MyApp());
 }
 

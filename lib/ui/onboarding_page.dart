@@ -31,13 +31,13 @@ class OnBoardingPage extends StatelessWidget {
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: 'Solusi Mudah Untuk Farm Anda',
+              title: 'Dapat Memudahkan Dalam Mencatat Transaksi',
               body: '',
               image: _buildImage('onboarding1.png'),
               decoration: pageDecoration,
             ),
             PageViewModel(
-              title: 'Solusi Mudah Untuk Farm Anda',
+              title: 'Dapat Memudahkan Dalam Mencatat Hasil Ternak',
               body: '',
               image: _buildImage('onboarding1.png'),
               decoration: pageDecoration,

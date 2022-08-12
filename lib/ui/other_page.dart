@@ -170,17 +170,17 @@ class _OtherPageState extends State<OtherPage> {
                             const SizedBox(
                               height: 5,
                             ),
-                            listSetting(
-                              text: 'Pengingat Otomatis',
-                              icon: Icons.access_alarm,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, AlarmPage.routeName);
-                              },
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            // listSetting(
+                            //   text: 'Pengingat Otomatis',
+                            //   icon: Icons.access_alarm,
+                            //   onTap: () {
+                            //     Navigator.pushNamed(
+                            //         context, AlarmPage.routeName);
+                            //   },
+                            // ),
+                            // const SizedBox(
+                            //   height: 5,
+                            // ),
                             // listSetting(
                             //   text: 'Bagikan Buku Maggot',
                             //   icon: Icons.share,

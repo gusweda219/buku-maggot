@@ -1,4 +1,4 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+// import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:buku_maggot_app/common/styles.dart';
 import 'package:buku_maggot_app/helper/background_service.dart';
 import 'package:buku_maggot_app/utils/model/alarm.dart';
@@ -146,13 +146,13 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
                               pref.setString('alarm', newPref);
 
-                              await AndroidAlarmManager.oneShotAt(
-                                dt,
-                                id,
-                                BackgroundService.callback,
-                                exact: true,
-                                wakeup: true,
-                              );
+                              // await AndroidAlarmManager.oneShotAt(
+                              //   dt,
+                              //   id,
+                              //   BackgroundService.callback,
+                              //   exact: true,
+                              //   wakeup: true,
+                              // );
 
                               Navigator.pop(context);
                             }

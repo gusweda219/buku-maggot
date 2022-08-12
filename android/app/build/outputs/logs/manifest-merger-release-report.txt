@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
 MERGED from [:shared_preferences_android] C:\My Folders\Project\Flutter\buku_maggot_app\build\shared_preferences_android\intermediates\library_manifest\release\AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_auth] C:\My Folders\Project\Flutter\buku_maggot_app\build\firebase_auth\intermediates\library_manifest\release\AndroidManifest.xml:2:1-15:12
 MERGED from [:cloud_firestore] C:\My Folders\Project\Flutter\buku_maggot_app\build\cloud_firestore\intermediates\library_manifest\release\AndroidManifest.xml:2:1-15:12
@@ -13,7 +13,7 @@ MERGED from [:android_alarm_manager_plus] C:\My Folders\Project\Flutter\buku_mag
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:2:1-28:12
 MERGED from [:path_provider] C:\My Folders\Project\Flutter\buku_maggot_app\build\path_provider\intermediates\library_manifest\release\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:17:1-83:12
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2b298d710992f12b9e2e0e6710dea16b\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-appcheck-interop:16.0.0-beta02] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff5e8f7b0a77959153f924b5295ae982\jetified-firebase-appcheck-interop-16.0.0-beta02\AndroidManifest.xml:15:1-26:12
 MERGED from [com.google.firebase:firebase-common:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\e8c12af64c0d197211b7d090cb61cdf8\jetified-firebase-common-20.0.0\AndroidManifest.xml:15:1-40:12
@@ -43,6 +43,7 @@ MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\we
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\6638a1bb5b201a3b6303484a3c94e62a\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\10072416595a772c943a9777831fd79c\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.6.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\8ec5a4192b12a309556d408337153575\core-1.6.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff60b25419edc5e682541efdbdc701d8\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\a9067f94159f9ce449557338d8450eb9\lifecycle-runtime-2.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\9dc01f80be5d003ac3d9f81c085f13fd\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -57,25 +58,24 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wedab\.gradle\ca
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\af5ac34d8217e841163337c0c136aaf0\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d261df177e472c4c3988c033af8e60c7\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d5b1978c1cc049e0af8d5529cb2f4477\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:2:1-13:12
 MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\38dc6ad0d9ee8143383008f8d2e90b8f\jetified-threetenabp-1.2.3\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2be4a00b738a307c9b0b855eef46b421\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\073fa8f73d9db3fc6f27ad8d002d7cd7\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
-INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
+INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
 	package
 		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:2:5-42
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-63:12
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:1-62:12
 		INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:1:11-69
@@ -83,38 +83,28 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:3:5-67
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:14:5-67
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:14:5-67
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:14:5-67
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:14:5-67
 	android:name
 		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:3:22-64
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:4:5-79
-MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:24:5-79
-MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:24:5-79
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:13:5-79
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:13:5-79
-MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:11:5-79
-MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:11:5-79
-	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:4:22-76
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:5:5-80
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:4:5-80
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:7:5-81
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:7:5-81
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:5:22-78
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:4:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:6:5-67
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:5:5-67
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:6:22-65
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:5:22-65
 uses-permission#android.permission.SCHEDULE_EXACT_ALARM
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:8:5-79
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:7:5-79
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:10:5-79
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:10:5-79
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:8:22-76
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:7:22-76
 application
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:9:4-61:19
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:8:4-60:19
 MERGED from [:firebase_auth] C:\My Folders\Project\Flutter\buku_maggot_app\build\firebase_auth\intermediates\library_manifest\release\AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_auth] C:\My Folders\Project\Flutter\buku_maggot_app\build\firebase_auth\intermediates\library_manifest\release\AndroidManifest.xml:7:5-13:19
 MERGED from [:cloud_firestore] C:\My Folders\Project\Flutter\buku_maggot_app\build\cloud_firestore\intermediates\library_manifest\release\AndroidManifest.xml:7:5-13:19
@@ -127,8 +117,8 @@ MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_ma
 MERGED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:12:5-26:19
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:26:5-81:19
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:26:5-81:19
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:16:5-24:19
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:16:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:16:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:16:5-24:19
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2b298d710992f12b9e2e0e6710dea16b\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2b298d710992f12b9e2e0e6710dea16b\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-appcheck-interop:16.0.0-beta02] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff5e8f7b0a77959153f924b5295ae982\jetified-firebase-appcheck-interop-16.0.0-beta02\AndroidManifest.xml:24:5-20
@@ -152,79 +142,79 @@ MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\wedab\.grad
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\8ec5a4192b12a309556d408337153575\core-1.6.0\AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:10:9-40
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:9:9-36
 	android:icon
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:11:9-43
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:10:9-43
 activity#com.example.buku_maggot_app.MainActivity
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:12:9-40:20
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:11:9-39:20
 	android:launchMode
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:14:13-43
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:13:13-43
 	android:hardwareAccelerated
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:17:13-47
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:16:13-47
 	android:windowSoftInputMode
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:18:13-55
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:17:13-55
 	android:configChanges
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:16:13-163
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:15:13-163
 	android:theme
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:15:13-47
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:14:13-47
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:13:13-41
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:12:13-41
 meta-data#io.flutter.embedding.android.NormalTheme
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:23:13-26:17
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:22:13-25:17
 	android:resource
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:25:15-52
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:24:15-52
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:24:15-70
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:23:15-70
 meta-data#io.flutter.embedding.android.SplashScreenDrawable
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:32:13-35:17
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:31:13-34:17
 	android:resource
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:34:15-61
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:33:15-61
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:33:15-79
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:32:15-79
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:36:13-39:29
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:35:13-38:29
 action#android.intent.action.MAIN
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:37:17-68
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:36:17-68
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:37:25-66
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:36:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:38:17-76
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:37:17-76
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:38:27-74
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:37:27-74
 service#dev.fluttercommunity.plus.androidalarmmanager.AlarmService
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:41:9-44:35
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:40:9-43:39
 	android:exported
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:44:9-33
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:43:13-37
 	android:permission
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:43:9-65
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:42:13-69
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:42:9-82
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:41:13-86
 receiver#dev.fluttercommunity.plus.androidalarmmanager.AlarmBroadcastReceiver
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:45:5-47:35
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:44:9-46:39
 	android:exported
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:47:9-33
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:46:13-37
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:46:9-92
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:45:13-96
 receiver#dev.fluttercommunity.plus.androidalarmmanager.RebootBroadcastReceiver
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:48:5-55:16
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:47:9-54:20
 	android:enabled
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:50:9-32
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:49:13-36
 	android:exported
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:51:9-33
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:50:13-37
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:49:9-93
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:48:13-97
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:52:9-54:25
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:51:13-53:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:53:13-75
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:52:17-79
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:53:21-72
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:52:25-76
 meta-data#flutterEmbedding
-ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:58:9-60:33
+ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:57:9-59:33
 	android:value
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:60:13-30
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:59:13-30
 	android:name
-		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:59:13-44
+		ADDED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml:58:13-44
 uses-sdk
 INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\My Folders\Project\Flutter\buku_maggot_app\android\app\src\main\AndroidManifest.xml
@@ -247,8 +237,8 @@ MERGED from [:path_provider] C:\My Folders\Project\Flutter\buku_maggot_app\build
 MERGED from [:path_provider] C:\My Folders\Project\Flutter\buku_maggot_app\build\path_provider\intermediates\library_manifest\release\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:21:5-44
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:21:5-44
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2b298d710992f12b9e2e0e6710dea16b\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\2b298d710992f12b9e2e0e6710dea16b\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-appcheck-interop:16.0.0-beta02] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff5e8f7b0a77959153f924b5295ae982\jetified-firebase-appcheck-interop-16.0.0-beta02\AndroidManifest.xml:19:5-21:41
@@ -307,6 +297,8 @@ MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wedab\.gradl
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\10072416595a772c943a9777831fd79c\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.6.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\8ec5a4192b12a309556d408337153575\core-1.6.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.6.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\8ec5a4192b12a309556d408337153575\core-1.6.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff60b25419edc5e682541efdbdc701d8\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\ff60b25419edc5e682541efdbdc701d8\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\a9067f94159f9ce449557338d8450eb9\lifecycle-runtime-2.3.1\AndroidManifest.xml:20:5-22:41
@@ -335,8 +327,6 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\wedab\.g
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d261df177e472c4c3988c033af8e60c7\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d5b1978c1cc049e0af8d5529cb2f4477\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d5b1978c1cc049e0af8d5529cb2f4477\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\d411f9c3365264c9de8e991a9ee2b384\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\38dc6ad0d9ee8143383008f8d2e90b8f\jetified-threetenabp-1.2.3\AndroidManifest.xml:5:5-44
@@ -363,8 +353,8 @@ MERGED from [:firebase_core] C:\My Folders\Project\Flutter\buku_maggot_app\build
 MERGED from [:firebase_core] C:\My Folders\Project\Flutter\buku_maggot_app\build\firebase_core\intermediates\library_manifest\release\AndroidManifest.xml:8:9-12:19
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:74:9-80:19
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:74:9-80:19
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:17:9-23:19
-MERGED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:17:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:17:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:17:9-23:19
 MERGED from [com.google.firebase:firebase-common:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\e8c12af64c0d197211b7d090cb61cdf8\jetified-firebase-common-20.0.0\AndroidManifest.xml:33:9-37:35
 MERGED from [com.google.firebase:firebase-common:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\e8c12af64c0d197211b7d090cb61cdf8\jetified-firebase-common-20.0.0\AndroidManifest.xml:33:9-37:35
 	android:exported
@@ -453,6 +443,14 @@ action#com.htc.intent.action.QUICKBOOT_POWERON
 ADDED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:23:17-82
 	android:name
 		ADDED from [:flutter_local_notifications] C:\My Folders\Project\Flutter\buku_maggot_app\build\flutter_local_notifications\intermediates\library_manifest\release\AndroidManifest.xml:23:25-79
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:13:5-79
+MERGED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:13:5-79
+MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:11:5-79
+MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\adf0ad4e5cb0b2226216b1b3470356be\jetified-grpc-android-1.41.0\AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:24:22-76
 activity#com.google.firebase.auth.internal.GenericIdpActivity
 ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:27:9-44:20
 	android:excludeFromRecents
@@ -522,11 +520,11 @@ ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\cac
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\cb85e813550ceb859d5d8655b705694f\jetified-firebase-auth-21.0.1\AndroidManifest.xml:78:17-109
 meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
-ADDED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:20:13-22:85
+ADDED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:20:13-22:85
 	android:value
-		ADDED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:22:17-82
+		ADDED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:22:17-82
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:24.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\875fba2a3c7d150fb639a449876b754f\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:21:17-111
+		ADDED from [com.google.firebase:firebase-firestore:24.0.1] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\fe8af9d207e66cd175b26baabd40e396\jetified-firebase-firestore-24.0.1\AndroidManifest.xml:21:17-111
 provider#com.google.firebase.provider.FirebaseInitProvider
 ADDED from [com.google.firebase:firebase-common:20.0.0] C:\Users\wedab\.gradle\caches\transforms-2\files-2.1\e8c12af64c0d197211b7d090cb61cdf8\jetified-firebase-common-20.0.0\AndroidManifest.xml:26:9-31:39
 	android:authorities

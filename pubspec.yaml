@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -37,7 +37,7 @@ dependencies:
   intl: ^0.17.0
   firebase_core: ^1.8.0
   firebase_auth: ^3.1.4
-  cloud_firestore: ^3.1.0
+  cloud_firestore: ^3.1.7
   pin_code_fields: ^7.3.0
   syncfusion_flutter_xlsio: ^19.3.53-beta
   path_provider: ^2.0.6
@@ -48,9 +48,9 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   flutter_time_picker_spinner: ^2.0.0
   shared_preferences: ^2.0.11
-  flutter_local_notifications: ^9.2.0
-  android_alarm_manager_plus: ^2.0.3
-  rxdart: ^0.27.3
+  # android_alarm_manager_plus: ^2.0.2
+  # flutter_local_notifications: ^5.0.0+3
+  # rxdart: ^0.26.0
 
 
   # The following adds the Cupertino Icons font to your application.

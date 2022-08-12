@@ -1,4 +1,4 @@
-package com.example.buku_maggot_app
+package com.balaindonesia.buku_maggot_app
 
 import io.flutter.embedding.android.FlutterActivity
 
